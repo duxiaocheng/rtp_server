@@ -1,2 +1,2 @@
 # rtp_server
-RTP Server
+Real-time Transport Protocol Server for speech
