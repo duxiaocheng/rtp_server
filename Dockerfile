@@ -7,9 +7,8 @@ FROM centos:7
 MAINTAINER chason.du@nokia-sbell.com
 
 # Copy file
-# ADD rtp_server /usr/bin/
+ADD rtp_server /usr/bin/
 
 # Entrypoint
-# CMD ["/usr/bin/rtp_server"]
-CMD ["/bin/bash"]
+CMD ["/usr/bin/rtp_server"]
 
