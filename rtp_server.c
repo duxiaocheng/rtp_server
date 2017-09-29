@@ -14,6 +14,12 @@
 #include <assert.h>
 #include <pthread.h>
 
+#include <log_print.h>
+#include "rtp_process.h"
+
+
+#define RTP_SERVICE_VERSION "1.0"
+
 struct rtp_request{
   int size;
   struct sockaddr_in client;
@@ -36,15 +42,15 @@ void *work_thread(void *arg) {
   socklen_t addr_len = sizeof(struct sockaddr_in);
   struct sockaddr_in *clientAddr = NULL;
 
-  printf("work_thread started.\n");
+  infof("work_thread started.\n");
   if (NULL == request) {
-    printf("work_thread param error!\n");
+    errorf("work_thread param error!\n");
     return NULL;
   }
   clientAddr = &(request->client);
 
   if ((sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
-    printf("work_thread socket could not be created.\n");
+    errorf("work_thread socket could not be created.\n");
     goto QUIT;
   }
 
@@ -53,23 +59,28 @@ void *work_thread(void *arg) {
   server.sin_port = 0;
 
   if (bind(sock, (struct sockaddr *)&server, sizeof(server)) < 0){
-    printf("work_thread bind failed.\n");
+    errorf("work_thread bind failed.\n");
     goto QUIT;
   }
 
   // point out the destination address: ip and port, for send/recv
   if (connect(sock, (struct sockaddr*)&(request->client), addr_len) < 0){
-    printf("Can't connect to client.\n");
+    errorf("Can't connect to client.\n");
     goto QUIT;
   }
   while (request->size > 0) {
-    printf("[%s:%u] %s\n", inet_ntoa(clientAddr->sin_addr), ntohs(clientAddr->sin_port), request->buff);
+    // process request
+    infof("[%s:%u] %s\n", inet_ntoa(clientAddr->sin_addr), ntohs(clientAddr->sin_port), request->buff);
+    rtp_process(request->buff, request->size);
+
+    // send response
     int n = send(sock, str_toupper(request->buff), request->size, 0);
     if (n != request->size)
     {
       perror("sendto");
       break;
     }
+    // receive new request
     memset(request->buff, 0, sizeof(request->buff));
     request->size = recv(sock, request->buff, sizeof(request->buff) - 1, 0);
   }
@@ -77,14 +88,13 @@ void *work_thread(void *arg) {
 QUIT:
   if (request) free(request);
   if (sock >= 0) close(sock);
-  printf("exit work_thread %lu\n", pthread_self());
+  infof("exit work_thread %lu\n", pthread_self());
   return NULL;
 }
 
 static void rtp_server()
 {
-  printf("Welcome! This is a RTPserver.\n");
-  printf("Now, I can only receive message from client and reply with CAPITAL same message.\n");
+  infof("Welcome! This is a RTPserver %s\n", RTP_SERVICE_VERSION);
 
   struct sockaddr_in addr;
   int port = 55555;
@@ -93,17 +103,16 @@ static void rtp_server()
   addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
   int sock;
-  if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-  {
-    perror("socket");
+  if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+    errorf("create socker failed: %s\n", strerror(errno));
     exit(1);
   }
   if (bind(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0)
   {
-    perror("bind");
+    errorf("bind socker failed: %s\n", strerror(errno));
     exit(1);
   }
-  printf("Server started at 0.0.0.0:%d.\n", port);
+  infof("Server started at 0.0.0.0:%d.\n", port);
 
   socklen_t addr_len = sizeof(struct sockaddr_in);
   struct rtp_request *request = NULL;
@@ -113,12 +122,22 @@ static void rtp_server()
     memset(request, 0, sizeof(struct rtp_request));
     request->size = recvfrom(sock, request->buff, sizeof(request->buff) - 1, 0,
         (struct sockaddr *)&(request->client), &addr_len);
+#if 0
     pthread_t t_id;
     if (pthread_create(&t_id, NULL, work_thread, request) != 0) {
-      printf("create thread failed:%s\n", strerror(errno));
+      errorf("create thread failed:%s\n", strerror(errno));
     }
-    printf("create thread %lu success\n", t_id);
+    infof("create thread %lu success\n", t_id);
     // TODO: when and how to exit work thread.
+#else
+    rtp_process(request->buff, request->size);
+    // send response
+    int n = sendto(sock, request->buff, request->size, 0, (struct sockaddr*)&(request->client), addr_len);
+    if (n != request->size) {
+      errorf("send response error: %s\n", strerror(errno));
+      break;
+    }
+#endif
   }
 
 }
@@ -126,8 +145,9 @@ static void rtp_server()
 int main()
 {
   rtp_server();
-
   return 0;
 }
 
+// Refer to:
+// UDP multi threads model: https://github.com/ideawu/tftpx
 

@@ -1,0 +1,3 @@
+[submodule "etcd-api"]
+	path = etcd-api
+	url = https://github.com/jdarcy/etcd-api.git
