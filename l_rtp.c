@@ -311,6 +311,10 @@ l_rtp_increment_field(void *rtp_header, l_rtp_type_t type, l_rtp_field_id_t fiel
   case L_RTP_FIELD_ID_TIMESTAMP:
     l_rtp_set_field(rtp_header, type, field_id, old_value + increment);
     break;
+  case L_RTP_FIELD_ID_SSRC:
+  case L_RTP_FIELD_ID_PAYLOAD_TYPE:
+    l_rtp_set_field(rtp_header, type, field_id, old_value + increment);
+    break;
   default:
     break;
   }

@@ -21,9 +21,11 @@
 #define RTP_SERVICE_VERSION "1.0"
 
 struct rtp_request{
-  int size;
   struct sockaddr_in client;
-  char buff[512];
+  char buff[1500];
+  int size;
+  char buf_out[1500];
+  int size_out_8;
 };
 
 static char* str_toupper(char *str)
@@ -71,7 +73,7 @@ void *work_thread(void *arg) {
   while (request->size > 0) {
     // process request
     infof("[%s:%u] %s\n", inet_ntoa(clientAddr->sin_addr), ntohs(clientAddr->sin_port), request->buff);
-    rtp_process(request->buff, request->size);
+    rtp_process(request->buff, request->size, request->buf_out, &(request->size_out_8));
 
     // send response
     int n = send(sock, str_toupper(request->buff), request->size, 0);
@@ -120,7 +122,7 @@ static void rtp_server()
   {
     request = (struct rtp_request *)malloc(sizeof(struct rtp_request));
     memset(request, 0, sizeof(struct rtp_request));
-    request->size = recvfrom(sock, request->buff, sizeof(request->buff) - 1, 0,
+    request->size = recvfrom(sock, request->buff, sizeof(request->buff), 0,
         (struct sockaddr *)&(request->client), &addr_len);
 #if 0
     pthread_t t_id;
@@ -130,10 +132,10 @@ static void rtp_server()
     infof("create thread %lu success\n", t_id);
     // TODO: when and how to exit work thread.
 #else
-    rtp_process(request->buff, request->size);
+    rtp_process(request->buff, request->size, request->buf_out, &(request->size_out_8));
     // send response
-    int n = sendto(sock, request->buff, request->size, 0, (struct sockaddr*)&(request->client), addr_len);
-    if (n != request->size) {
+    int n = sendto(sock, request->buf_out, request->size_out_8, 0, (struct sockaddr*)&(request->client), addr_len);
+    if (n != request->size_out_8) {
       errorf("send response error: %s\n", strerror(errno));
       break;
     }

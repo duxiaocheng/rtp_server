@@ -53,6 +53,7 @@ int log_print(int log_level, const char *fmt, ...)
     va_start(ap, fmt);
     ret = vprintf(fmt, ap); // print to stdout
     va_end(ap);
+    fflush(stdout);
 	}
   return ret;
 }

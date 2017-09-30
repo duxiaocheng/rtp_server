@@ -166,6 +166,9 @@ typedef uint32             bf32; /* Bit Field, 32 bits */
 typedef long long          int64;
 typedef unsigned long long uint64;
 
+typedef long long          int40_t;
+typedef int40_t            int40;
+
 /*****************************************************************************************/
 /****    5 FUNCTION PROTOTYPES    ********************************************************/
 

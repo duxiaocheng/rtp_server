@@ -10,6 +10,9 @@
 #include "l_rtp.h"
 #include "etcd-api/etcd-api.h"
 
+#include <string.h>
+#include <stdlib.h>
+
 /*****************************************************************************************/
 /****    2 LOCAL CONSTANTS    ************************************************************/
 
@@ -25,7 +28,7 @@
 /*****************************************************************************************/
 /****    6 FUNCTIONS    ******************************************************************/
 
-int rtp_process(void *buff, int len)
+int rtp_process(void *buff, int len, void *buf_out, int *len_out_8)
 {
 #if 1
   int size8 = 0;
@@ -38,6 +41,14 @@ int rtp_process(void *buff, int len)
     errorf("rtp_process len error:%d\n", len);
     return -1;
   }
+
+  static uint32 s_sequence_number = 1;
+  static uint32 s_timestamp = 10000;
+  debugf("--- %03d ---------------------------\n", s_sequence_number);
+  l_rtp_set_field(buff, L_RTP_TYPE_RTP_UNCOMPRESSED, L_RTP_FIELD_ID_SEQ_NUMBER, s_sequence_number++);
+  l_rtp_set_field(buff, L_RTP_TYPE_RTP_UNCOMPRESSED, L_RTP_FIELD_ID_TIMESTAMP, s_timestamp);
+  s_timestamp += 20;
+
   ssrc = l_rtp_get_field(buff, L_RTP_TYPE_RTP_UNCOMPRESSED, L_RTP_FIELD_ID_SSRC);
   debugf("ssrc: 0x%x (%u)\n", ssrc, ssrc);
   unsigned int seq_number = l_rtp_get_field(buff, L_RTP_TYPE_RTP_UNCOMPRESSED, L_RTP_FIELD_ID_SEQ_NUMBER);
@@ -47,11 +58,21 @@ int rtp_process(void *buff, int len)
   unsigned int payload_type = l_rtp_get_field(buff, L_RTP_TYPE_RTP_UNCOMPRESSED, L_RTP_FIELD_ID_PAYLOAD_TYPE);
   debugf("payload type: %u\n", payload_type);
 
-	payload_len = len - size8;
-	payload = (char *)buff + size8;
+  payload_len = len - size8;
+  payload = (char *)buff + size8;
 
-	extern int evs_ingress_process(void *buff, int len);
-	evs_ingress_process(payload, payload_len);
+  void *payload_out = (char *)buf_out + size8;
+
+  // do transcoding
+  extern int evs_ingress_process(void *buff, int len, void *buff_out, int *len_out_8);
+  evs_ingress_process(payload, payload_len, payload_out, len_out_8);
+
+  // create PCM RTP packet
+  memcpy(buf_out, buff, size8);
+  len_out_8 += size8;
+  int payload_type_pcm = 8;
+  l_rtp_increment_field(buf_out, L_RTP_TYPE_RTP_UNCOMPRESSED, L_RTP_FIELD_ID_SSRC, 1);
+  l_rtp_set_field(buf_out, L_RTP_TYPE_RTP_UNCOMPRESSED, L_RTP_FIELD_ID_PAYLOAD_TYPE, payload_type_pcm);
 
 #else
   etcd_session sess;

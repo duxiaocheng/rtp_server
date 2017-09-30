@@ -5,17 +5,36 @@
 
 /*****************************************************************************************/
 /****    1 INCLUDE FILES    **************************************************************/
+
 #include <type_def.h>
 #include <log_print.h>
 #include <l_mgw.h>
 #include <l_scratch.h>
 #include <l_string.h>
 #include "l_upd.h"
+#include "m_evs.h"
+#include "m_src.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 /*****************************************************************************************/
 /****    2 LOCAL CONSTANTS    ************************************************************/
+
+/** Scratch linear 8 kHz PCM UPD packet alignment size in 16-bit words */
+#define SCRATCH_LIN_08_KHZ_PCM_UPD_PACKET_ALIGNMENT_SIZE_16 \
+  (SIZE_1_TO_16(64) - UPD_HEADER_SIZE_16)
+/** Scratch linear 16 kHz PCM UPD packet alignment size in 16-bit words */
+#define SCRATCH_LIN_16_KHZ_PCM_UPD_PACKET_ALIGNMENT_SIZE_16 \
+  SCRATCH_LIN_08_KHZ_PCM_UPD_PACKET_ALIGNMENT_SIZE_16
+
+/** Scratch linear 8 kHz PCM UPD packet size in 16-bit words */
+#define SCRATCH_LIN_08_KHZ_PCM_UPD_PACKET_SIZE_16 \
+  (UPD_HEADER_SIZE_16 + SIZE_1_TO_16(UPD_PAYLOAD_PCM_30_MS_LINEAR_08_KHZ_BITS))
+
+/** Scratch linear 16 kHz PCM UPD packet size in 16-bit words */
+#define SCRATCH_LIN_16_KHZ_PCM_UPD_PACKET_SIZE_16 \
+  (UPD_HEADER_SIZE_16 + SIZE_1_TO_16(UPD_PAYLOAD_PCM_30_MS_LINEAR_16_KHZ_BITS))
 
 /*****************************************************************************************/
 /****    3 LOCAL MACROS    ***************************************************************/
@@ -111,6 +130,16 @@
 #define EVS_COMPACT_CMR_ENTRY_SIZE                  3
 #define EVS_HEADER_FULL_CMR_ENTRY_SIZE              8
 #define EVS_TOC_ENTRY_SIZE                          8
+
+#define CHECK_ERROR(func, ret, extra) \
+        if (ret != EA_NO_ERRORS) { \
+          errorf("%s error:0x%x, extra:0x%x\n", func, ret, extra); \
+        }
+
+#define EVS_PRIMARY_MODE        UPD_EVS_PRIMARY_MODE /* 0 */
+#define EVS_WBIO_MODE           UPD_EVS_WBIO_MODE    /* 1 */
+#define EVS_UNKNOW_MODE         UPD_EVS_UNKNOW_MODE  /* 3 */
+
 
 /*****************************************************************************************/
 /****    4 LOCAL DATA TYPES    ***********************************************************/
@@ -234,10 +263,17 @@ str_evs_format_primary(uint16 evs_format);
 
 MGW_LOCAL const char *
 str_evs_format(uint16 evs_format, uint16 evs_mode);
+
+MGW_LOCAL upd_packet_t *
+l_uph_get_scratch_lin_08_khz_pcm_upd_packet(void);
+
+MGW_LOCAL upd_packet_t *
+l_uph_get_scratch_lin_16_khz_pcm_upd_packet(void);
+
 /*****************************************************************************************/
 /****    6 FUNCTIONS    ******************************************************************/
 
-int evs_ingress_process(void *buff, int len)
+int evs_ingress_process(void *buff, int len, void *buf_out, int *len_out_8)
 {
 	struct context_t context;
 	struct params_t *params = &(context.params);
@@ -245,8 +281,14 @@ int evs_ingress_process(void *buff, int len)
 
 	memset(&context, 0, sizeof(context));
 	params->evs_mode = UPD_EVS_PRIMARY_MODE;
+  params->evs_format = EVS_HDR_FMT_COMPACT;
+  params->ptime = 20;
+  params->mode_set = 0;
+  params->br = UPD_MODE_EVS_PRIMARY_24400;
 
   upd_packet_t *upd_packet[M_MB_IPT_MAX_EVS_FRAMES_PER_PACKET] = { 0 };
+  upd_packet_t *lin_pcm_upd_packet[M_MB_IPT_MAX_EVS_FRAMES_PER_PACKET] = { 0 };
+  upd_packet_t *lin_16_khz_pcm_upd_packet[M_MB_IPT_MAX_EVS_FRAMES_PER_PACKET] = { 0 };
   uint16 *rtp_payload = buff;
   uint16 rtp_payload_size_8 = len;
 	uint16 evs_mode = params->evs_mode; /* config with rtp.evs_mode_switch */
@@ -255,6 +297,7 @@ int evs_ingress_process(void *buff, int len)
 
   debugf("evs_ingress_process\n");
 	debugf("EVS rtp_payload_size_8: %d\n", rtp_payload_size_8);
+
 
   /* step 1: get EVS head format with rtp payload size */
 	evs_hdr_fmt = get_evs_hdr_format(SIZE_8_TO_1(rtp_payload_size_8), evs_mode);
@@ -277,7 +320,7 @@ int evs_ingress_process(void *buff, int len)
 		errorf("TODO ....\n");
 	}
 
-	debugf("EVS evs_mode: %s(%d)\n", evs_mode == UPD_EVS_WBIO_MODE ? "wbio" : "primary", evs_mode);
+	debugf("EVS evs_mode: %s(%d)\n", str_evs_mode(evs_mode), evs_mode);
 	debugf("EVS evs_hdr_fmt: %s(%d)\n", evs_hdr_fmt == EVS_HDR_FMT_COMPACT ? "compact" : "headful", evs_hdr_fmt);
 	for (i = 0; i < ARRAY_SIZE(upd_packet); i++) {
 		if (upd_packet[i]) {
@@ -289,6 +332,54 @@ int evs_ingress_process(void *buff, int len)
 				str_evs_mode(p->form), p->form);
 		}
 	}
+
+  /* step 3: transcoding */
+  static codec_dec_data_t *evs_dec = NULL;
+  ecode_t ret = EA_NO_ERRORS;
+  if (evs_dec == NULL) {
+    init_intel_ipp(); // init
+    evs_dec = (codec_dec_data_t *)malloc(sizeof(*evs_dec));
+    memset(evs_dec, 0, sizeof(*evs_dec));
+    ret = m_evs_dec_init(evs_dec);
+    CHECK_ERROR("m_evs_dec_init", ret, evs_dec->extra_ecode);
+  }
+  for (i = 0; i < ARRAY_SIZE(upd_packet); i++) {
+    if (upd_packet[i]) {
+      lin_16_khz_pcm_upd_packet[i] = l_uph_get_scratch_lin_16_khz_pcm_upd_packet();
+      evs_dec->ctrl_io.output_sample_rate_hz = L_UPD_WB_SAMPLE_RATE_HZ;
+      evs_dec->data_io.upd_input_codec = upd_packet[i];
+      evs_dec->data_io.upd_lin_pcm = lin_16_khz_pcm_upd_packet[i];
+      ret = m_evs_dec(evs_dec);
+      CHECK_ERROR("m_evs_dec", ret, evs_dec->extra_ecode);
+    }
+  }
+
+  /* step 4: sample rate converting */
+  static m_src_down_data *master = NULL;
+  if (master == NULL) {
+    master = (m_src_down_data *)malloc(sizeof(*master));
+    memset(master, 0, sizeof(*master));
+    ret = m_src_down_init(master);
+    CHECK_ERROR("m_src_down_init", ret, master->extra_ecode);
+  }
+  for (i = 0; i < ARRAY_SIZE(upd_packet); i++) {
+    if (upd_packet[i]) {
+      lin_pcm_upd_packet[i] = l_uph_get_scratch_lin_08_khz_pcm_upd_packet();
+      master->upd_in = lin_16_khz_pcm_upd_packet[i];
+      master->upd_out = lin_pcm_upd_packet[i];
+      ret = m_src_down(master);
+      CHECK_ERROR("m_src_down", ret, master->extra_ecode);
+    }
+  }
+
+  /* step 5: return PCM data */
+  if (lin_pcm_upd_packet[0]) {
+    void *rtp_paylod = l_upd_get_payload(lin_pcm_upd_packet[0]);
+    uint16 output_data_buffer_size_8 =
+      SIZE_1_TO_8(l_upd_get_payload_size_1(lin_pcm_upd_packet[0]));
+    memcpy(buf_out, rtp_paylod, output_data_buffer_size_8);
+    *len_out_8 = output_data_buffer_size_8;
+  }
 
   return 0;
 }
@@ -898,8 +989,40 @@ str_evs_format(uint16 evs_format, uint16 evs_mode)
 	return "null";
 }
 
+/*****************************************************************************************/
+/**
+@brief      Gets scratch memory linear 8 kHz PCM UPD packet
+
+@return     Scratch memory linear 8 kHz PCM UPD packet
+*/
+MGW_LOCAL upd_packet_t *
+l_uph_get_scratch_lin_08_khz_pcm_upd_packet(void)
+{
+  uint16 *scratch =
+    l_scratch_get_buffer(L_SCRATCH_ID_UPH_LIN_08_KHZ_PCM,
+                         SCRATCH_LIN_08_KHZ_PCM_UPD_PACKET_ALIGNMENT_SIZE_16 +
+                         SCRATCH_LIN_08_KHZ_PCM_UPD_PACKET_SIZE_16);
+
+  return (upd_packet_t *) (scratch + SCRATCH_LIN_08_KHZ_PCM_UPD_PACKET_ALIGNMENT_SIZE_16);
+}
 
 /*****************************************************************************************/
+/**
+@brief      Gets scratch memory linear 16 kHz PCM UPD packet
 
+@return     Scratch memory linear 16 kHz PCM UPD packet
+*/
+MGW_LOCAL upd_packet_t *
+l_uph_get_scratch_lin_16_khz_pcm_upd_packet(void)
+{
+  uint16 *scratch =
+    l_scratch_get_buffer(L_SCRATCH_ID_UPH_LIN_16_KHZ_PCM,
+                         SCRATCH_LIN_16_KHZ_PCM_UPD_PACKET_ALIGNMENT_SIZE_16 +
+                         SCRATCH_LIN_16_KHZ_PCM_UPD_PACKET_SIZE_16);
+
+  return (upd_packet_t *) (scratch + SCRATCH_LIN_16_KHZ_PCM_UPD_PACKET_ALIGNMENT_SIZE_16);
+}
+
+/*****************************************************************************************/
 
 

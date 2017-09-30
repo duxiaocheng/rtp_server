@@ -1,0 +1,3889 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
+<title>Intel&#174; Integrated Performance Primitives Samples</title>
+<style type="text/css">
+/* Custom theme based on CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body, thead, p.table.header, div.title, caption.title
+{
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 10pt;
+}
+/*
+thead, p.table.header
+{
+    font-size: 1em;
+}*/
+
+/* Title font. */
+/*h1, h2, h3, h4, h5, h6,
+#toctitle, #author, #revnumber, #revdate, #revremark, #footer
+{
+    font-family: "Neo Sans Intel",Tahoma,Arial,Helvetica,sans-serif;
+}*/
+
+body
+{
+    color: #333333;
+    background-color: #ffffff;
+    margin: 1em 5% 1em 5%;
+}
+
+img
+{
+    max-width: 100%;
+    table-layout: fixed;
+}
+
+div.imageblock img
+{
+    border-bottom: 1px solid #bababa;
+    border-top: 1px solid #bababa;
+}
+
+div.listingblock > div.content
+{
+    font-size: 0.9em;
+    overflow: auto;
+}
+
+a
+{
+    color: #0860a8;
+    text-decoration: underline;
+}
+a:visited
+{
+    color: #0860a8;
+}
+
+em
+{
+    font-style: italic;
+/*    color: navy;*/
+}
+
+strong
+{
+    font-weight: bold;
+/*    color: #0860a8;*/
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    font-weight: normal;
+    color: #0860a8;
+    margin-top: 1.0em;
+    margin-bottom: 0.5em;
+/*    line-height: 1.3;*/
+}
+
+h1 {
+  border-bottom: 2px solid #0860A8;
+  font-size: 2.0em;
+/*  color: black;*/
+}
+h2
+{
+/*    border-bottom: 1px solid #0860A8;*/
+    font-size: 1.5em;
+}
+h3
+{
+/*  margin-top: 0.5em;*/
+    font-size: 1.5em;
+/*  float: left;*/
+}/*
+h3 + * {
+  clear: left;
+}*/
+h4
+{
+    font-size: 1.5em;
+}
+h5
+{
+/*  margin-top: 1.5em;*/
+    font-size: 1.5em;
+}
+
+div.sectionbody
+{
+    margin-left: 0;
+}
+
+hr
+{
+    border: 1px solid #0860A8;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: #333333; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+/*  color: navy;*/
+  padding: 0;
+  margin: 0;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+    font-weight: bold;
+    text-align: left;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  font-weight: bold;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.2em;
+  font-weight: normal;
+  white-space: nowrap;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+/*
+ * TOC control
+*/
+
+#toc
+{
+    background-color: #f1f1f1;
+}
+
+#toctitle
+{
+    border-bottom: 2px solid silver;
+    color: #333333;
+    font-size: 15pt;
+    font-weight: normal;
+    margin-top: 1.0em;
+    margin-bottom: 0.5em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+div.toclevel0 > a, div.toclevel1 > a, div.toclevel2 > a, div.toclevel3 > a, div.toclevel4 > a
+{
+    text-decoration: none;
+    color: #333333;
+}
+div.toclevel0 > a:hover, div.toclevel1 > a:hover, div.toclevel2 > a:hover, div.toclevel3 > a:hover, div.toclevel4 > a:hover
+{
+    text-decoration: underline;
+}
+div.toclevel0
+{
+    margin-top: 0.5em;
+    color: black;
+    font-weight: bold;
+}
+div.toclevel1
+{
+    margin-top: 0.5em;
+    margin-left: 0.8em;
+}
+div.toclevel2
+{
+    list-style-type: circle;
+    display: list-item;
+    margin-top: 0.5em;
+    margin-left: 2em;
+}
+div.toclevel3
+{
+    list-style-type: square;
+    display: list-item;
+    margin-top: 0.2em;
+    margin-left: 3.8em;
+    font-size: 0.8em;
+}
+div.toclevel4
+{
+    display: list-item;
+    margin-top: 0.2em;
+    margin-left: 5.1em;
+    font-size: 0.8em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * Tables control
+*/
+
+div.tableblock
+{
+    margin-top: 1.0em;
+    margin-bottom: 1.5em;
+    border-color: #bababa;
+}
+div.tableblock > table
+{
+    border-collapse: collapse;
+    border: 1px solid #bababa;
+}
+td, th, tr, thead, tfoot, tbody, table,p.table
+{
+    border-color: #bababa;
+}
+thead, p.table.header
+{
+    font-weight: bold;
+    background-color: #555555;
+    border-color: #bababa;
+    color: #FFFFFF;
+}
+p.table
+{
+    margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"]
+{
+    border-style: none;
+}
+div.tableblock > table[frame="hsides"]
+{
+    border-left-style: none;
+    border-right-style: none;
+}
+div.tableblock > table[frame="vsides"]
+{
+    border-top-style: none;
+    border-bottom-style: none;
+}
+
+/* TOC2 and images width control */
+@media print
+{
+    body.manpage div#toc { display: none; }
+}
+
+@media screen
+{
+    body
+    {
+        max-width: 60em; /* approximately 80 characters wide */
+        margin-left: 25em;
+    }
+    #toc
+    {
+        min-width: 17em;
+        max-width: 22em;
+    }
+}
+
+
+@media screen {
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding: 0.5em;
+    margin: 0;
+    overflow: auto;
+  }
+}
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(4);
+/*]]>*/
+</script>
+</head>
+<body class="book">
+<div id="header">
+<h1>Intel&#174; Integrated Performance Primitives Samples</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<h1 id="disclaimer" style="font-size:6pt; color:#FFFFFF; border-style:hidden; margin:0px;">Disclaimer</h1>
+
+<font size="-3">
+<p><font size="-3"><h2 id="_legal_information">Legal Information</h2>
+INFORMATION IN THIS DOCUMENT IS PROVIDED IN CONNECTION WITH INTEL PRODUCTS.
+NO LICENSE, EXPRESS OR IMPLIED, BY ESTOPPEL OR OTHERWISE, TO ANY INTELLECTUAL
+PROPERTY RIGHTS IS GRANTED BY THIS DOCUMENT. EXCEPT AS PROVIDED IN INTEL'S
+TERMS AND CONDITIONS OF SALE FOR SUCH PRODUCTS, INTEL ASSUMES NO LIABILITY
+WHATSOEVER, AND INTEL DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY, RELATING
+TO SALE AND/OR USE OF INTEL PRODUCTS INCLUDING LIABILITY OR WARRANTIES
+RELATING TO FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR INFRINGEMENT
+OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT.<br>
+A   "Mission Critical Application" is any application in which failure of the   Intel Product could result, directly or indirectly, in personal injury or death.   SHOULD YOU PURCHASE OR USE INTEL'S PRODUCTS FOR ANY SUCH MISSION CRITICAL   APPLICATION, YOU SHALL INDEMNIFY AND HOLD INTEL AND ITS SUBSIDIARIES,   SUBCONTRACTORS AND AFFILIATES, AND THE DIRECTORS, OFFICERS, AND EMPLOYEES OF   EACH, HARMLESS AGAINST ALL CLAIMS COSTS, DAMAGES, AND EXPENSES AND REASONABLE   ATTORNEYS' FEES ARISING OUT OF, DIRECTLY OR INDIRECTLY, ANY CLAIM OF PRODUCT   LIABILITY, PERSONAL INJURY, OR DEATH ARISING IN ANY WAY OUT OF SUCH MISSION   CRITICAL APPLICATION, WHETHER OR NOT INTEL OR ITS SUBCONTRACTOR WAS NEGLIGENT IN   THE DESIGN, MANUFACTURE, OR WARNING OF THE INTEL PRODUCT OR ANY OF ITS PARTS.</font></p>
+</font>
+<p><font size="-3"> Intel may make changes to specifications and product descriptions at any time,
+  without notice. Designers must not rely on the absence or characteristics of any
+  features or instructions marked "reserved" or "undefined." Intel reserves these
+  for future definition and shall have no responsibility whatsoever for conflicts
+  or incompatibilities arising from future changes to them. The information here
+  is subject to change without notice. Do not finalize a design with this
+  information. <br>
+  The products described in this document may contain design defects or errors
+  known as errata which may cause the product to deviate from published
+  specifications. Current characterized errata are available on request. <br>
+  Contact your local Intel sales office or your distributor to obtain the latest
+  specifications and before placing your product order. <br>
+  Copies of documents which have an order number and are referenced in this
+  document, or other Intel literature, may be obtained by calling 1-800-548-4725,
+  or go to:
+  <a href="http://www.intel.com/design/literature.htm">http://www.intel.com/design/literature.htm</a><br></font></p>
+  <p><font size="-3"> Intel processor numbers are not a measure of performance. Processor numbers
+  differentiate features within each processor family, not across different
+  processor families. Go to: <a href="http://www.intel.com/products/processor_number"> <a href="http://www.intel.com/products/processor_number/">http://www.intel.com/products/processor_number/</a></a></font></p>
+
+<p><font size="-3"> BlueMoon, BunnyPeople, Celeron, Celeron Inside, Centrino, Centrino Inside, Core Inside,
+  i960, Intel, the Intel logo, Intel Atom, Intel Atom Inside, Intel Core,
+  Intel Inside, Intel Inside logo, Intel NetBurst, Intel NetMerge,
+  Intel NetStructure, Intel SingleDriver, Intel SpeedStep,
+  Intel Sponsors of Tomorrow., the Intel Sponsors of Tomorrow. logo,
+  Intel StrataFlash, Intel Viiv, Intel vPro, Intel XScale, InTru, the InTru logo,
+  InTru soundmark, Itanium, Itanium Inside, MCS, MMX, Moblin, Pentium,
+  Pentium Inside, skoool, the skoool logo, Sound Mark, The Journey Inside,
+  vPro Inside, VTune, Xeon, and Xeon Inside
+  are trademarks of Intel Corporation in the U.S. and other countries. <br>
+  * Other names and brands may be claimed as the property of others. </font></p>
+
+<p><font size="-3"> Microsoft, Windows, Visual Studio, Visual C++, and the Windows logo are
+  trademarks, or registered trademarks of Microsoft Corporation
+  in the United States and/or other countries. </font></p>
+
+<p><font size="-3">Java is a registered trademark of Oracle and/or its affiliates. </font></p>
+
+<p><font size="-3">Copyright(C) 2013 Intel Corporation. All rights reserved.</font></p>
+
+<p id="IPP_SAMPLES_OptNotice">
+<div class="tablenoborder">
+<table cellpadding="4" summary="" id="d3135e12" frame="border" border="1" cellspacing="0" rules="all">
+  <thead align="left">
+    <tr><th class="cellrowborder" align="left" valign="top" width="100%" id="d157258e36"><p>Optimization Notice</p></th></tr>
+  </thead>
+
+  <tbody>
+    <tr><td class="bgcolor(#ccecff)" bgcolor="#ccecff" valign="top" width="100%" headers="d157258e36 ">
+    <p>Intel's compilers may or may not optimize to the same degree for non-Intel microprocessors for optimizations that are not
+    unique to Intel microprocessors. These optimizations include SSE2, SSE3, and SSSE3 instruction sets and
+    other optimizations. Intel does not guarantee the availability, functionality, or effectiveness of
+    any optimization on microprocessors not manufactured by Intel.
+    <br>
+    <br>
+    Microprocessor-dependent optimizations in this product are intended for use with Intel microprocessors. Certain optimizations not specific to Intel microarchitecture are reserved for Intel microprocessors. Please refer to the applicable product User and Reference Guides for more information regarding the specific instruction sets covered by this notice.</p>
+    <p>Notice revision #20110804 </p>
+    </td></tr>
+  </tbody>
+</table>
+</div>
+</p>
+</div>
+</div>
+<h1 id="_license_definitions">License Definitions</h1>
+<div class="paragraph"><p>By downloading and installing this sample, you hereby agree that the
+accompanying materials are being provided to you under the terms and
+conditions of the End User License Agreement for the Intel&#174;
+Integrated Performance Primitives (Intel&#174; IPP) product previously accepted by you.
+
+Please refer to the file <strong>ippEULA.rtf</strong> or <strong>ippEULA.txt</strong> located in the root directory of your Intel&#174; IPP Samples
+installation for more information.</p></div>
+<h1 id="_system_requirements">System Requirements</h1>
+<div class="paragraph"><p>Recommended hardware:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+A system based on a 2nd Generation Intel&#174; Core&#8482; i3, i5, i7 or newer processor
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Hardware requirements:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+A system based on the Intel&#174; Pentium&#174; processor, Intel&#174; Xeon&#174; processor, or subsequent IA-32 architecture based system
+</p>
+</li>
+<li>
+<p>
+A system based on a processor with Intel&#174; 64 architecture
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Software requirements:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Intel&#174; IPP 8.0.0 and higher
+</p>
+</li>
+<li>
+<p>
+Intel&#174; Composer XE 2011, Intel&#174; Composer XE 2013, Intel&#174; Composer XE 2013 with the latest updates
+</p>
+</li>
+<li>
+<p>
+CMake* 2.8.10
+</p>
+</li>
+<li>
+<p>
+Perl 5.12.2
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>OS specific software requirements:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Microsoft* Windows* OS: Microsoft* Visual Studio* 2008, 2010 or 2012 with the latest updates
+</p>
+</li>
+<li>
+<p>
+Linux*   OS: GCC 3.x or GCC 4.x
+</p>
+</li>
+<li>
+<p>
+OS X*    OS: XCode* 4.8.x for Mountain Lion* and XCode* 4.3.x for Lion*
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>For more information please see
+<a href="http://software.intel.com/en-us/articles/intel-ipp-80-library-system-requirements/">Intel&reg; IPP System
+Requirements</a>.</p></div>
+<h1 id="_installation_and_build">Installation and Build</h1>
+<div class="paragraph"><p>In order to build Intel&#174; IPP samples, you need to download and install the following free software:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+CMake* open-source build system from <a href="http://cmake.org/cmake/resources/software.html">http://cmake.org/cmake/resources/software.html</a>
+according to your operating system.
+</p>
+</li>
+<li>
+<p>
+ActivePerl Community Edition from <a href="http://www.activestate.com/activeperl/downloads">http://www.activestate.com/activeperl/downloads</a> to
+build samples on Windows*.  (Strawberry Perl and others such as those shipped with msys
+or cygwin are also expected to work, but have not been validated.)
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>On Windows* start command-line window, on Linux*, or OS X*, start terminal emulation
+window.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Extract the files from the samples package to the desired destination folder. Make sure that the directory structure is preserved.
+</p>
+</li>
+<li>
+<p>
+You can find source files in the <strong>sources</strong> folder.
+</p>
+</li>
+<li>
+<p>
+The build script is in the <strong>builder</strong> folder
+</p>
+</li>
+</ul></div>
+<div class="admonitionblock" id="run_win">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">Running Intel&#174; IPP Samples on Windows*</div>
+<div class="paragraph"><p>To run these samples on Windows* you must add the Intel&#174; IPP DLLs to the system path. DLLs are located in <strong>&lt;Intel&#174;
+Composer XE directory&gt;/redist/&lt;architecture&gt;/ipp</strong>
+subdirectory of the root directory of the Intel&#174; IPP installation (<strong>%IPPROOT%</strong>). This can be done by setting the
+<strong>PATH</strong> environment variable manually or invoking the batch file</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>%IPPROOT%\bin\ippvars.bat [intel64|ia32]</code></pre>
+</div></div>
+<div class="paragraph"><p>With Intel&#174; Composer XE installed you can also run</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>%IPPROOT%\..\bin\compilervars.bat [intel64|ia32]</code></pre>
+</div></div>
+</td>
+</tr></table>
+</div>
+<div class="admonitionblock" id="run_lin">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">Running Intel&#174; IPP Samples on Linux*</div>
+<div class="paragraph"><p>Make sure the Intel&#174; IPP is installed correctly and <strong>LD_LIBRARY_PATH</strong> environment variable contains path to the
+Intel&#174; IPP binary before executing the sample.  This can be done with</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>source /opt/intel/ipp/bin/ippvars.sh [intel64|ia32]</code></pre>
+</div></div>
+<div class="paragraph"><p>With Intel&#174; Composer XE installed you can also run</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>source /opt/intel/bin/compilervars.sh [intel64|ia32]</code></pre>
+</div></div>
+</td>
+</tr></table>
+</div>
+<div class="admonitionblock" id="run_osx">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">Running Intel&#174; IPP Samples on OS X*</div>
+<div class="paragraph"><p>Make sure the Intel&#174; IPP is installed correctly and <strong>DYLD_LIBRARY_PATH</strong>
+environment variable contains path to the Intel&#174; IPP binary before executing the sample.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>source /opt/intel/ipp/bin/ippvars.sh [intel64|ia32]</code></pre>
+</div></div>
+<div class="paragraph"><p>With Intel&#174; Composer XE installed you can also run</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>source /opt/intel/bin/compilervars.sh [intel64|ia32]</code></pre>
+</div></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Go to the builder directory. Execute <em>build.pl</em> without arguments</p></div>
+<div class="listingblock" id="execute_build_script">
+<div class="content">
+<pre><code>perl build.pl</code></pre>
+</div></div>
+<div class="paragraph"><p>to see a help screen:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>Copyright(C) 2013 Intel Corporation. All rights reserved.
+This script perform Intel(R) IPP Samples projects creation and build.
+
+Usage: perl build.pl --cmake=SAMPLE,ARCH,GENERATOR,LINKAGE,THREADING,CONFIG
+                     [--clean] [--build] [--comp=native/intel]
+Required variants:
+                     SAMPLE |  ARCH   | GENERATOR |  LINKAGE   |  THREADING | CONFIG
+             advanced-usage |         |           |            |            |
+         audio-video-codecs |         |           |            |            |
+            computer-vision |         |  vc2012   |            |            |
+           data-compression |         |  vc2010   |            |            |
+               image-codecs |         |  vc2008   |            |            |
+           image-processing | ia32    |  nmake    | s =static  | st =single | debug
+         language-interface | intel64 |  make     | d =dynamic | mt =multi  | release
+          signal-processing |         |  eclipse  |            |            |
+              speech-codecs |         |  xcode    |            |            |
+          string-processing |         |           |            |            |
+                        uic |         |           |            |            |
+
+
+Optional flags:
+
+--clean - clean build directory before projects generation / build
+--build - try to build projects before generation
+ --comp - try to use custom compiler, native(=gcc/cl.exe) or intel(=icc/icl.exe).
+    Need to set up environment variables first (i.e. source compilervars intel64).
+
+
+        Examples:
+
+[ only generate projects    ]
+perl build.pl --cmake=audio-video-codecs,ia32,vc2010,s,st,release
+[ generate and then build   ]
+perl build.pl --cmake=uic,intel64,make,s,mt,debug --build
+[ generate, clean and build ]
+perl build.pl --cmake=uic,intel64,make,d,mt,debug --build --clean</code></pre>
+</div></div>
+<div class="paragraph"><p>The script build.pl has the following options:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>Usage: perl build.pl --cmake=SAMPLE,ARCH,GENERATOR,LINKAGE,THREADING,CONFIG
+                    [--clean] [--build] [--comp=native/intel]</code></pre>
+</div></div>
+<div class="paragraph" id="build_target_dir"><p>Unless specified on the build.pl command line no build occurs.  This step  creates project build
+files as specified for your platform, OS, and build environment. The full path to build samples is
+<em>&lt;samples_dir&gt;/<em>cmake/&lt;ARCH&gt;.&lt;GENERATOR&gt;.&lt;LINKAGE&gt;.&lt;THREADING&gt;/</em>bin/&lt;CONFIG&gt;</em>, where <em>&lt;samples_dir&gt;</em> is
+Intel&#174; IPP samples installation directory, <em>&lt;ARCH&gt;</em>, <em>&lt;GENERATOR&gt;</em>, <em>&lt;LINKAGE&gt;</em>, <em>&lt;THREADING&gt;</em> and <em>&lt;CONFIG&gt;</em> are
+arguments specified for <em>build.pl</em> script.</p></div>
+<div class="paragraph"><p>Please see
+<a href="http://software.intel.com/en-us/articles/intel-ipp-71-samples-build/">Building the Intel&reg; IPP Samples</a>
+for more information.</p></div>
+<div class="sect1">
+<h2 id="_current_build_procedure_limitations_and_requirements">Current Build Procedure Limitations and Requirements</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+<em>nmake</em> project generation is not fully implemented yet.
+</p>
+</li>
+<li>
+<p>
+For all samples you may expect CMake issues while using Xcode generator for versions above 4.3. This is because the
+Xcode command-line tools are no longer installed by default as part of Xcode versions above 4.3.
+Instead, you&#8217;ll need to install them in Xcode&#8217;s Downloads preference pane or from <a href="http://developer.apple.com/downloads">http://developer.apple.com/downloads</a>.
+</p>
+</li>
+<li>
+<p>
+You may experience build issues on the latest Ubuntu* OS with GCC versions above 4.6.1.
+</p>
+</li>
+<li>
+<p>
+Building of <strong>simple_player</strong> sample on Windows with DirectSound audio renderer requires installation of Microsoft* DirectX SDK package
+(March 2008 or newer) if Microsoft* Visual Studio 2008 is used. Microsoft* Visual Studio 2010 and later versions contain required
+libraries in Studio packages.
+</p>
+</li>
+<li>
+<p>
+Automatic search for X Window System* SDK under OS X* for UMC component is currently unsupported therefore to use OpenGL
+renderer under OS X*, all paths to SDK must be specified manually.
+</p>
+</li>
+<li>
+<p>
+Current version of CMake is incompatible with <strong>ccache</strong> Unix*/Linux* recompilation speed-up system (<a href="http://ccache.samba.org/">http://ccache.samba.org/</a>) on, for example, Fedora&#8482; out-of-box systems.
+To use Intel&#174; IPP sample build procedure on such systems, you might need to uninstall <strong>ccache</strong>.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<h1 id="_intel_174_ipp_high_level_apis">Intel&#174; IPP High Level APIs</h1>
+<div class="paragraph"><p>Intel&#174; IPP includes higher level APIs for programming convenience.
+In many cases these APIs also include sample applications
+demonstrating how to use them in combination with Intel&#174; IPP
+primitives.</p></div>
+<div class="sect1">
+<h2 id="_unified_speech_components_usc">Unified Speech Components (USC)</h2>
+<div class="sectionbody">
+<div class="sect3">
+<h4 id="_umc_speech_rtp_codec_sample">UMC Speech RTP Codec Sample</h4>
+<div class="paragraph"><p>The G.711, G.722, G.722.1, G.722.2, AMRWB, Extended AMRWB (AMRWB+),
+G.723.1, G.726, G.728, G.729, GSM AMR, GSM FR are international
+standards promoted by ITU (<a href="http://www.itu.int">http://www.itu.int</a>), ETSI
+(<a href="http://www.etsi.org">http://www.etsi.org</a> ), 3GPP ( <a href="http://www.3gpp.org">http://www.3gpp.org</a> ) and other
+organizations.</p></div>
+<div class="paragraph"><p>Implementations of these standards, or the standard enabled platforms
+may require licenses from various entities, including Intel
+Corporation.</p></div>
+<div class="paragraph"><p>The UMC RTP speech codec sample supports audio compression and
+decompression to and from variety RTP payloads formats in compliance
+with following standards: 3GPP TS 26 171, 173, 174, 190-194, 273, 274,
+290 specifications, ITU-T G.722, G.722.1, G.722.2, G.723.1/A, G.726/A,
+G.728/I/G/H/J, G.729/A/B/D/E/I/C/C+, G.711/I/II recommendations and
+ETSI GSM 06.10-06.12, 06.31-06.32, 06.90-06.94 specifications, RFC 4867
+and have been implemented using the Intel&#174; IPP Speech Coding functions.</p></div>
+<div class="paragraph"><p>The sample is a command line based application which processes a single input file and
+stores the result in a single output file.  When in encoding mode the
+sample compresses audio data from an input WAV file storing compressed
+data in rtpdump file format. In decoding mode the sample performs
+reverse decompression from of an input file in rtpdump format and
+restore audio data in WAV file format.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>The sample application implements a round trip on an input file
+by encoding it and decoding immediately it to show how things work. In
+the real world a speech conversation over VOIP (for example) always has
+two streams operating simultaneously in opposite directions. Trying to
+decode two streams with one decoder will not work. You must run two
+separate instances of the entire decoder suite, one in each direction.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><div class="title">Running the Sample</div><p>To run the sample for encode or for decode following commands line to
+be used:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>usc_speech_rtp_codec.exe [options] &lt;infile&gt; &lt;outfile&gt;</code></pre>
+</div></div>
+<div class="paragraph"><p>Depending on which of two formats WAVE or RTPDump has the input file
+<code>&lt;infile&gt;</code> either encode or decode operation will be performed
+respectively.  For encode operation the output file <code>&lt;outfile&gt;</code> is
+stored in RTPDump format, for decode output file is stored in WAVE
+format.</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 1. Option list</caption>
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">-format &lt;codecname&gt;</p></td>
+<td align="left" valign="top"><p class="table">codec option</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-r&lt;bitrate&gt;</p></td>
+<td align="left" valign="top"><p class="table">bitrate option (mandatory)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-v</p></td>
+<td align="left" valign="top"><p class="table">VAD enabled. Default: VAD disabled.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-b&lt;num&gt;</p></td>
+<td align="left" valign="top"><p class="table">RTP payload format type for IPP_GSMAMR and IPP_AMRWB formats,
+&lt;num&gt;=0 - Bandwidth-Efficient Mode, =1 - Octet-Aligned Mode</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-p&lt;num&gt;</p></td>
+<td align="left" valign="top"><p class="table">Sets &lt;num&gt; - number of frames in the RTP packet</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-list</p></td>
+<td align="left" valign="top"><p class="table">Enumerates supported formats, other parameters are ignored.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 2. List of supported formats and bitrates</caption>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+<thead>
+<tr>
+<th align="left" valign="top">Codec name </th>
+<th align="left" valign="top"> Supported bitrate, in bps</th>
+<th align="left" valign="top"> Codec description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G711A</p></td>
+<td align="left" valign="top"><p class="table">64000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.711 A-law</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G711U</p></td>
+<td align="left" valign="top"><p class="table">64000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.711 u-Law</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G722.1</p></td>
+<td align="left" valign="top"><p class="table">16000, 24000, 32000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.722.1 wideband</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G722</p></td>
+<td align="left" valign="top"><p class="table">48000, 56000, 64000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.722 wideband</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G723.1</p></td>
+<td align="left" valign="top"><p class="table">5300, 6300</p></td>
+<td align="left" valign="top"><p class="table">ITU G.723.1/A</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G726</p></td>
+<td align="left" valign="top"><p class="table">16000, 24000, 32000, 40000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.726/A</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G728</p></td>
+<td align="left" valign="top"><p class="table">9600, 12800, 16000, 40000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.728/G/I/H/J</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G729</p></td>
+<td align="left" valign="top"><p class="table">8000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.729 basic</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G729D</p></td>
+<td align="left" valign="top"><p class="table">6400</p></td>
+<td align="left" valign="top"><p class="table">ITU G.729 Annex D</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G729E</p></td>
+<td align="left" valign="top"><p class="table">11800</p></td>
+<td align="left" valign="top"><p class="table">ITU G.729 Annex E</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G729A</p></td>
+<td align="left" valign="top"><p class="table">8000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.729 Annex A</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G729_FP</p></td>
+<td align="left" valign="top"><p class="table">8000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.729 basic, floating-point implementation</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G729D_FP</p></td>
+<td align="left" valign="top"><p class="table">6400</p></td>
+<td align="left" valign="top"><p class="table">ITU G.729 Annex D, floating-point implementation</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G729E_FP</p></td>
+<td align="left" valign="top"><p class="table">11800</p></td>
+<td align="left" valign="top"><p class="table">ITU G.729 Annex E, floating-point implementation</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_G729A_FP</p></td>
+<td align="left" valign="top"><p class="table">8000</p></td>
+<td align="left" valign="top"><p class="table">ITU G.729 Annex A, floating-point implementation</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_GSMAMR</p></td>
+<td align="left" valign="top"><p class="table">12200, 10200, 7950, 7400, 6700, 5900, 5150, 4750</p></td>
+<td align="left" valign="top"><p class="table">ETSI GSM 06.90</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">IPP_GSMFR</p></td>
+<td align="left" valign="top"><p class="table">13000</p></td>
+<td align="left" valign="top"><p class="table">ETSI GSM 06.10
+IPP_AMRWB</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">6600, 8850, 12650, 14250, 15850, 18250, 19850, 23050, 23850</p></td>
+<td align="left" valign="top"><p class="table">ITU G.722.2 (3GPP AMRWB)</p></td>
+<td align="left" valign="top"><p class="table">IPP_MSRTAnb_FP</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">8800</p></td>
+<td align="left" valign="top"><p class="table">Narrowband 8000 KHz MSRTA codec, floating-point
+implementation</p></td>
+<td align="left" valign="top"><p class="table">IPP_MSRTAwb_FP</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>The RT Audio codecs IPP_MSRTAnb_FP and IPP_MSRTAwb_FP are
+optional and are not built by default. To enable these codecs please
+compile the sample source with _USC_MSRTA definition and link with the
+Intel&#174; IPP RTA static library (ipp_rta.lib) provided in binary form.</p></div>
+</td>
+</tr></table>
+</div>
+<hr />
+</div>
+<div class="sect3">
+<h4 id="_echo_canceller">Echo Canceller</h4>
+<div class="paragraph"><p>The G.167, G.168-2004, P.330, P.340 specifications are international standards promoted by
+ITU ( <a href="http://www.itu.int">http://www.itu.int</a> ). Implementations of these standards, or the standard enabled
+platforms may require licenses from various entities, including
+Intel&#174; Corporation.</p></div>
+<div class="paragraph"><p>The USC Echo Canceller sample is a command line based application that
+performs echo cancellation. The EC sample processes two input files and
+creates one output PCM file either narrow band 16 bit 8000 Hz or
+wideband 16 bit 16000 Hz. The receive-in and send-in samples are
+processed to perform echo path parameters estimation and estimated echo
+is subtracted from the send-in samples and <strong>echo-free</strong> PCM data is
+written to send-out output file.</p></div>
+<div class="paragraph"><p>The sample implements three algorithms:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Fullband algorithm  - processing in time domain,
+</p>
+</li>
+<li>
+<p>
+Subband algorithm - processing in the frequency domain,
+</p>
+</li>
+<li>
+<p>
+Subband-Fast algorithm - fast processing in the frequency
+domain. The Subband - Fast algorithm introduces 6ms delay for 8 kHz and 3
+ms delay for 16kHz into the output signal.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The USC Echo Canceller software module is suitable for building an echo
+cancellation device (<strong>digital terminals</strong>) compliant with ITU-T G.167,
+G.168-2004, P.330, P.340 specifications. It is supposed that
+conformance testing is to be performed by the device/application
+producers, who are the only instance where all factors may be combined
+to build such a device. Intel&#174; IPP releases software module only and does not
+perform <strong>on-device</strong> testing, instead the specified testing  methodology
+is simulated in software tests. Neither software nor results of said
+tests are released.</p></div>
+<div class="paragraph"><div class="title">Running the Sample</div><p>To run the USC EC sample, type:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>usc_ec.exe [options] &lt;rin-PCMFile &gt; &lt;sin-PCMFile &gt; &lt;sout-PCMFile &gt;</code></pre>
+</div></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 3. Option list</caption>
+<col width="33%" />
+<col width="66%" />
+<thead>
+<tr>
+<th align="left" valign="top">Option                 </th>
+<th align="left" valign="top"> Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">[-f &lt;frequency&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Set the sampling frequency, kHz: 8 or 16. Default 8.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-a &lt;algorithm&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Algorithm specifier: fb (fullband), sb (subband type 1) or sbf
+(subband type 2). Default sb.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-ad &lt;algorithm&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Adaptation specifier: full or lite. Default full.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-ah &lt;mode&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Set the anti-howling device mode:1 - on (cos shift up. Exclude sb
+modes). 0 - off. 0 as default.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-l &lt;num&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Set the echo tail length, ms: in the range [1, 200].</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-delay &lt;val&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Set the delay in send-in PCM file, integer number of milliseconds.
+Leading end of send-in PCM will be cut off prior to echo cancel. Default: no delay.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-s &lt;num&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Set the number of times file to be processed (optional).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-c &lt;csv filename&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Enable the performance data output to the csv file. If repeat is
+specified (-s option) the last result only will be written into the output file</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-o &lt;log filename&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Enable output to the log file.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-list]</p></td>
+<td align="left" valign="top"><p class="table">Print out the modes list, and stop.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-sys]</p></td>
+<td align="left" valign="top"><p class="table">Print out system information.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-ap &lt;val&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Set the affine projection order, 1 or 4 recommended, sbf only. 1
+is default</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-nlp &lt;num&gt;]</p></td>
+<td align="left" valign="top"><p class="table">0- Set NLP off. 1- NLP type actual for all modes, default. 2- NLP
+type actual for sbf only. 3- 1+2 combined. Actual for sbf only.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-nr &lt;num&gt;]</p></td>
+<td align="left" valign="top"><p class="table">Set Noise Reduction level, 0 - without NR. 1- Low, 2- Medium, 3-
+Normal, 4- High, default, 5- Auto. Basically, the bigger number the higher level of NR.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-m &lt;num&gt;]</p></td>
+<td align="left" valign="top"><p class="table">0-Set NR smoothing off, default. 1- static type of smoothing with
+constant filter applied. 2- dynamic type of smoothing with changing filters applied.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-cng &lt;num&gt;]</p></td>
+<td align="left" valign="top"><p class="table">0-Set CNG off, otherwise CNG is ON, if NLP is ON. 1- CNG type
+actual for all modes, default. 2- CNG type actual for sbf with -nlp 2 only).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-dc]</p></td>
+<td align="left" valign="top"><p class="table">Set DC offset compensation ON, default is OFF.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">[-tdno]</p></td>
+<td align="left" valign="top"><p class="table">Switch OFF the G168 Tone disabler, default is ON</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;rin-PCMFile &gt;</p></td>
+<td align="left" valign="top"><p class="table">Input file contains receive-in 16-bit PCM signal.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;sin-PCMFile &gt;</p></td>
+<td align="left" valign="top"><p class="table">Input file contains send-in 16-bit PCM signal.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;sout-PCMFile &gt;</p></td>
+<td align="left" valign="top"><p class="table">Output file contains send-out 16-bit PCM signal.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+</div>
+<div class="sect3">
+<h4 id="_noise_reduction">Noise Reduction</h4>
+<div class="paragraph"><p>The G.723.1, G.729 and AMRWB are international standards promoted by
+ITU (<a href="http://www.itu.int">http://www.itu.int</a>) and 3GPP (<a href="http://www.3gpp.org">http://www.3gpp.org</a>).
+Implementations of these standards, or the standard enabled platforms
+may require licenses from various entities, including Intel
+Corporation.</p></div>
+<div class="paragraph"><p>The USC Noise reduction sample is a command line based application. It
+supports two components: Noise Reduction and Voice Activity Detection.</p></div>
+<div class="paragraph"><p>The Noise reduction sample component processes input PCM file narrow
+band 16 bit 8000 Hz and creates output PCM file narrow band 16 bit 8000
+Hz.</p></div>
+<div class="paragraph"><p>The VAD detection sample component processes input PCM file narrow
+band 16 bit 8000 Hz or wide band 16 bit 16000 Hz and creates output PCM
+file narrow band 16 bit 8000 Hz or wide band 16 bit 16000 Hz
+respectively. Various VAD algorithms are supported including G.723,
+G.729, AMRWB.</p></div>
+<div class="paragraph"><div class="title">Running the Sample</div><p>To run the USC noise reduction sample type:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>usc_nr.exe [options] &lt;inPCMFile&gt; &lt;outPCMFile&gt;</code></pre>
+</div></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 4. The option list</caption>
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Option</p></td>
+<td align="left" valign="top"><p class="table">Description</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-alg</p></td>
+<td align="left" valign="top"><p class="table">filter algorithm name&lt;br&gt;IPP_NR_EC - Intel&#174; IPP based Noise Reduction
+algorithm&lt;br&gt;IPP_NR_RTA_FP - Microsoft RT Audio Noise-Suppressor algorithm&lt;br&gt;IPP_VADG723  ITU G.723.1 VAD algorithm&lt;br&gt;IPP_VADG729_FP - ITU G.729 floating-point VAD algorithm&lt;br&gt;IPP_VADG729 - ITU G.729 VAD algorithm&lt;br&gt;IPP_VADAMRWBE - 3GPP AMR WB  VAD algorithm</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-f&lt;freq&gt;</p></td>
+<td align="left" valign="top"><p class="table">Sample frequency in Hertz.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-n</p></td>
+<td align="left" valign="top"><p class="table">output additional information  (optional).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-list</p></td>
+<td align="left" valign="top"><p class="table">Enumerate linked USC signal filter algorithms and exit  (optional).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-o &lt;logFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">write to &lt;logFile&gt; file log information (optional).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;inPCMFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">input audio PCM file</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;outPCMFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">output audio PCM file 8000 Hz (IPP_NR_EC, IPP_NR_RTA_FP, IPP_VADG723,
+IPP_VADG729_FP, IPP_VADG729 algorithms)  or 16000 Hz ( IPP_NR_RTA_FP and IPP_VADAMRWBE
+algorithms) or 22050 and 32000 Hz ( IPP_NR_RTA_FP)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+</div>
+<div class="sect3">
+<h4 id="_speech_sample">Speech Sample</h4>
+<div class="paragraph"><p>The G.711, G.722, G.722.1, G.722.2, AMRWB, Extended AMRWB (AMRWB+),
+G.723.1, G.726, G.728, G.729, GSM AMR, GSM FR are international
+standards promoted by ITU ( <a href="http://www.itu.int">http://www.itu.int</a> ), ETSI (
+<a href="http://www.etsi.org">http://www.etsi.org</a> ), 3GPP ( <a href="http://www.3gpp.org">http://www.3gpp.org</a> ) and other
+organizations. Implementations of these standards, or the standard
+enabled platforms may require licenses from various entities, including
+Intel&#174; Corporation.</p></div>
+<div class="paragraph"><p>The USC speech coding sample supports a variety of speech coding
+formats and performs compression/decompression in compliance with the
+3GPP TS 26 071, 073, 171, 173, 174, 190-194, 273, 274, 290
+specifications, ITU-T G.722, G.722.1, G.722.2, G.723.1/A, G.726/A,
+G.728/I/G/H/J, G.729/A/B/D/E/I/C/C+, G.711/I/II recommendations and
+ETSI GSM 06.10-06.12, 06.31-06.32, 06.90-06.94 specifications and have
+been implemented using the Intel&#174; IPP Speech Coding functions.</p></div>
+<div class="paragraph"><p>The sample is a command line based application which processes data
+given by single input file and stores the result in an output file.</p></div>
+<div class="paragraph"><p>When in encoding mode the sample consumes either 16 bit narrowband 8000
+Hz or 16 bit wideband 16000 Hz raw PCM data or 8 bit narrowband 8000 Hz
+A-Law/Mu-Law PCM or 8bit wideband 16000 Hz A-Law/Mu-Law PCM data stored
+in WAVE file format and produces a compressed USC bitstream stored in a
+compressed WAVE file. The USC bitstream can be decompressed with the
+sample and a the lossy copy of original PCM file will be created in the
+same band and format.</p></div>
+<div class="paragraph"><p>The header of the USC file format is similar to the header of WAVE
+file format for non-PCM data. Bitstream frames are consecutively stored
+in data section of the USC file. Each bitstream frame is stored with
+small header followed by the bitstream data. The bitstream header
+format is depicted below:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code> 0               1               2               3               4               5
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7
+ -------------------------------------------------------------------------------------------------
+ |                    Bitrate                    |  Frame type   |         Frame length          |
+ -------------------------------------------------------------------------------------------------</code></pre>
+</div></div>
+<div class="paragraph"><p>A header comprises of six octets: first three octets represent bitrate
+in bps, the second octet represents frame type and latter two octets
+contain the pure bitstream data length, not including the header
+length. The bitstream data follows after the header. In some cases,
+depending on the silence compression scheme used, the codec can produce
+an empty bitstream and so a frame header with zero data length is
+created.</p></div>
+<div class="paragraph"><div class="title">Running the Sample</div><p>To run the USC speech sample for compression, type:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>usc_speech_codec.exe [options] &lt;inWAVEFile&gt; &lt;outUSCFile&gt;</code></pre>
+</div></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 5. Encoder option list:</caption>
+<col width="20%" />
+<col width="80%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">-format</p></td>
+<td align="left" valign="top"><p class="table">IPP_G711A (ITU G.711 A-law)<br />
+IPP_G711U (ITU G.711 u-Law)<br />
+IPP_AMRWB (ITU G.722.2 (3GPP AMRWB) codec)<br />
+IPP_G722.1 (ITU G.722.1 wideband codec)<br />
+IPP_G722 (ITU G.722 wideband codec)<br />
+IPP_G723.1 (ITU G.723.1/A codec)<br />
+IPP_G726 (ITU G.726/A codec)<br />
+IPP_G728 (ITU G.728/G/I/H/J codec)<br />
+IPP_G729A (ITU G.729AB codec)<br />
+IPP_G729I (ITU G.729 codec)<br />
+IPP_G729AFP (ITU G.729AB codec, alternative floating-point implementation)<br />
+IPP_G729IFP (ITU G.729 codec, alternative floating-point implementation)<br />
+IPP_GSMAMR (ETSI GSM 06.90 codec)<br />
+IPP_GSMFR (ETSI GSM 06.10 codec)<br />
+IPP_AMRWBE (3GPP extended AMRWB (AMRWB+) codec)<br />
+IPP_MSRTA_FP (Microsoft* real-time audio codec)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-r</p></td>
+<td align="left" valign="top"><p class="table">bitrate in bps<br />
+IPP_G711A and IPP_G711U formats: -r64000<br />
+IPP_G722 format: -r48000 -r56000 -r64000<br />
+IPP_G722.1 format: -r16000  -r24000  -r32000  -r48000<br />
+IPP_G723.1 format: -r5300  -r6300<br />
+IPP_G726 format: -r16000  -r24000  -r32000  -r40000<br />
+IPP_G728 format: -r9600 -r12800 -r16000 -r40000<br />
+IPP_G729A and IPP_G729AFP formats: -r8000<br />
+IPP_G729I and IPP_G729IFP formats: -r6400 -r8000 -r11800<br />
+IPP_GSMAMR format: -r12200 -r10200 -r7950 -r7400 -r6700 -r5900 -r5150 -r4750<br />
+IPP_GSMFR format: -r13000<br />
+IPP_AMRWB format: -r6600 -r8850 -r12650 -r14250 -r15850 -r18250 -r19850 -r23050 -r23850
+IPP_AMRWBE format: -r6600 -r8850 -r12650 -r14250 -r15850 -r18250 -19850 -r23050 -r23850 -
+AMRWB compatible bitrates for mono 16 KHz PCM<br />
+-r13600 -r24000 - bitrates for 16 and 24 KHz mono PCM,<br />
+-r18000 -r24000 - bitrates for 16 and 24 KHz stereo PCM,<br />
+-r10400 -r12000 -r13600 -r15200 -r16800 -r19200 -r20800 -r24000  -
+bitrates for 16, 24, 32 and 48 KHz mono PCM,<br />
+-r12400 -r12800 -r14000 -r14400 -r15200 -r16000 -r16400 -r17200 -r18000 -r18400 -r19200
+-r 20000 -r20400 -r21200 -r22400 -r23200 -r24000 -r25600 -r26000 -r26800 -r28800 -r29600
+-r30000 -r32000 - bitrates  for 16, 24, 32 and 48 KHz stereo PCM.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-list</p></td>
+<td align="left" valign="top"><p class="table">Enumerates supported formats.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-v</p></td>
+<td align="left" valign="top"><p class="table">VAD enabled. Default: VAD disabled.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-n</p></td>
+<td align="left" valign="top"><p class="table">output additional information.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-o</p></td>
+<td align="left" valign="top"><p class="table">&lt;logFile&gt; write to &lt;logFile&gt; file log information.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;inWAVEFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">input audio WAV file, mono 8000 Hz (G711, G723,
+G726, G728, G729, GSMAMR, GSMFR, AMRWBE) or mono 16000 Hz (G722,
+G722SB, AMRWB, AMRWBE) or stereo 8000 Hz (AMRWBE) or stereo 16000 Hz
+(AMRWBE)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;outUSCFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">output bitstream file in USC compressed WAV
+file format.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>To run the USC speech sample for decompression, type:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>usc_speech_codec.exe [options] &lt;inUSCFile&gt; &lt;outWAVEFile&gt;</code></pre>
+</div></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 6. Decoder option list</caption>
+<col width="25%" />
+<col width="75%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">-list</p></td>
+<td align="left" valign="top"><p class="table">Enumerates supported formats</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-n</p></td>
+<td align="left" valign="top"><p class="table">output additional information</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-o &lt;logFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">write to <code>&lt;logFile&gt;</code> file log information</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-alaw</p></td>
+<td align="left" valign="top"><p class="table">Convert decompressed output file to the A-Law PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-mulaw</p></td>
+<td align="left" valign="top"><p class="table">Convert decompressed output file to the Mu-Law PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-lost&lt;N&gt;</p></td>
+<td align="left" valign="top"><p class="table">Simulate <code>&lt;N&gt;</code> % of lost frames, where <code>&lt;N&gt;</code> is integer number</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;inUSCFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">input bitstream file in USC compressed WAV file
+format.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;outWAVEFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">output audio WAV file, mono 8000 Hz (G711, G723,
+G726, G728, G729, GSMAMR, GSMFR, AMRWBE) or mono 16000 Hz (G722,
+G722SB, AMRWB, AMRWBE) or stereo 8000 Hz (AMRWBE) or stereo 16000 Hz
+(AMRWBE)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>To run the USC speech sample for timing:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>usc_speech_codec.exe -timing[CodecName] &lt;RepeatNum&gt; [options] &lt;inWAVEFile&gt;</code></pre>
+</div></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 7. Timing options list</caption>
+<col width="25%" />
+<col width="75%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">[CodecName]</p></td>
+<td align="left" valign="top"><p class="table">Codec name (See -format encoder option description),  for example
+-timingIPP_G728. If unspecified all codecs will be timed (according to given &lt;inWAVEFile&gt;
+format)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;RepeatNum&gt;</p></td>
+<td align="left" valign="top"><p class="table">number of times to repeat <code>&lt;inWAVEFile&gt;</code></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-n</p></td>
+<td align="left" valign="top"><p class="table">output additional information</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-c &lt;CSVFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">write to <code>&lt;CSVFile&gt;</code> file the information about  coder performance in
+CSV Excel format</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-lost&lt;N&gt;</p></td>
+<td align="left" valign="top"><p class="table">Simulate <code>&lt;N&gt;</code> % of lost frames, where <code>&lt;N&gt;</code> is integer number</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-o &lt;logFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">write to <code>&lt;logFile&gt;</code> file log information</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;inWAVEFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">input audio WAV file, mono 8000 Hz (G711, G723, G726,  G728, G729,
+GSMAMR, GSMFR, AMRWBE) or mono 16000 Hz (G722, G722SB, AMRWB, AMRWBE) or stereo 8000 Hz
+(AMRWBE) or stereo 16000 Hz (AMRWBE)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+</div>
+<div class="sect3">
+<h4 id="_tones_processing">Tones Processing</h4>
+<div class="paragraph"><p>The G.168 is international standard promoted by ITU (<a href="http://www.itu.int">http://www.itu.int</a>). Implementations
+of this standard, or the standard enabled platforms may require licenses from various
+entities, including Intel Corporation.</p></div>
+<div class="paragraph"><p>The USC Tones Processing sample is a command line based application that performs /ANS and
+DTMF tones detection and tones generation.</p></div>
+<div class="paragraph"><p>The tones detector processes an input 16 bit PCM file of either narrow band frequency
+8000 Hz or wideband frequency 16000 Hz and creates one output text file containing the
+textual names of detected tones. If no tones in the input file are detected the output
+file is empty (zero length). The /ANS tone is 2100 Hz tone with phase reversals at 450 ms.
+The DTMF ( Dual-Tone Multi-Frequency ) tone a signal combining two  following pure tones:
+a low frequency tone from 697, 770, 852 or 941 Hz and high frequency tone from 1209, 1336,
+1477 or 1633 Hz.  DTMF are used in telephony for keypad representation as shown in the
+following table with each row representing a low frequency, and each column
+representing a high frequency :</p></div>
+<div class="tableblock">
+<table rules="all"
+width="60%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 8. DTMF keypad frequencies</caption>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<thead>
+<tr>
+<th align="left" valign="top">           </th>
+<th align="left" valign="top"> 1209 Hz   </th>
+<th align="left" valign="top"> 1336 Hz   </th>
+<th align="left" valign="top"> 1477 Hz   </th>
+<th align="left" valign="top"> 1633 Hz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">697 Hz</p></td>
+<td align="left" valign="top"><p class="table">1</p></td>
+<td align="left" valign="top"><p class="table">2</p></td>
+<td align="left" valign="top"><p class="table">3</p></td>
+<td align="left" valign="top"><p class="table">A</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">770 Hz</p></td>
+<td align="left" valign="top"><p class="table">4</p></td>
+<td align="left" valign="top"><p class="table">5</p></td>
+<td align="left" valign="top"><p class="table">6</p></td>
+<td align="left" valign="top"><p class="table">B</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">852 Hz</p></td>
+<td align="left" valign="top"><p class="table">7</p></td>
+<td align="left" valign="top"><p class="table">8</p></td>
+<td align="left" valign="top"><p class="table">9</p></td>
+<td align="left" valign="top"><p class="table">C</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">941 Hz</p></td>
+<td align="left" valign="top"><p class="table">*</p></td>
+<td align="left" valign="top"><p class="table">0</p></td>
+<td align="left" valign="top"><p class="table">#</p></td>
+<td align="left" valign="top"><p class="table">D</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>The tones generator processes input parameters for generation: tones  succession (for
+DTMF) or one tone (for ANS) duration of tone and pause, and amplitude level, and creates
+one output PCM file either narrow band 16 bit 8000 Hz or wideband 16 bit 16000 Hz.</p></div>
+<div class="paragraph"><p>The tone detection algorithm complies with ITU G.168-200 2 and Q.23 specifications.</p></div>
+<div class="paragraph"><div class="title">Running the Sample</div><p>To run the USC tones detector type:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>usc_tones.exe -dt -type DTMF|ANS [options] &lt;inPCMFile&gt; &lt;outTextFile&gt;</code></pre>
+</div></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 9. The option list</caption>
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">-type</p></td>
+<td align="left" valign="top"><p class="table">DTMF or ANS detector</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-fXXX</p></td>
+<td align="left" valign="top"><p class="table">PCM frequency in kHz of the input file, where XXX equals 8000 or 16000</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-n</p></td>
+<td align="left" valign="top"><p class="table">output additional information  (optional)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-o &lt;logFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">write to <code>&lt;logFile&gt;</code> file log information (optional)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;inPCMFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">input audio PCM file, 8000 Hz  or 16000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;outTextFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">output text file</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>To run the USC tones generator type:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>usc_tones.exe -type DTMF -gtXXX [options] &lt;outPCMFile&gt;</code></pre>
+</div></div>
+<div class="paragraph"><p>or</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>usc_tones.exe  -type ANS -gt Y [options] &lt;outPCMFile&gt;</code></pre>
+</div></div>
+<div class="tableblock">
+<table rules="all"
+width="60%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 10. The option list</caption>
+<col width="25%" />
+<col width="75%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">-type</p></td>
+<td align="left" valign="top"><p class="table">DTMF or ANS generator</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-fXXX</p></td>
+<td align="left" valign="top"><p class="table">PCM frequency in kHz of the output file, where <code>XXX</code> equals 8000 or 16000</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-gtXXX</p></td>
+<td align="left" valign="top"><p class="table"><code>XXX</code> is a sequence of keypad symbols to generate DTMF for. For example, <em>-gtABC</em></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-gt Y</p></td>
+<td align="left" valign="top"><p class="table"><code>Y</code> is a single tone of ANS group of tones: ANS, /ANS, ANSam, /ANSam. For
+example, <em>-gt /ANS</em></p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-tXXX</p></td>
+<td align="left" valign="top"><p class="table">Duration time of tone in ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-pXXX</p></td>
+<td align="left" valign="top"><p class="table">Duration time of pause in ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-vXXX</p></td>
+<td align="left" valign="top"><p class="table">Amplitude level in dB</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-n</p></td>
+<td align="left" valign="top"><p class="table">output additional information (optional)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">-o &lt;logFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">write to <code>&lt;logFile&gt;</code> file log information (optional)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">&lt;outPCMFile&gt;</p></td>
+<td align="left" valign="top"><p class="table">output audio PCM file, 8000 Hz  or 16000 Hz</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+</div>
+<div class="sect3">
+<h4 id="_usc_codecs">USC Codecs</h4>
+<div class="paragraph"><div class="title">AMRWB</div><p>The USC AMRWB codec is designed to operate with a digital signal  appropriate to 3GPP TS
+26.190 specification for Adaptive Multi-Rate WideBand codec promoted 3rd Generation
+Partnership Project (<a href="http://www.3gpp.org">http://www.3gpp.org</a>). It is compliant with 3GPP TS 26.190-192,194,201
+specifications and has been implemented using the Intel&#174; IPP Speech Coding functions.
+The USC AMRWB codec supports compression and decompression with 20ms frame length at nine
+bitrates 6600, 8850, 12650, 14250, 15850, 18250, 19850, 23050 or 23850  bps producing 132,
+177, 253, 285, 317, 365, 397, 461 or 477 bits per frame (bpf) respectively.</p></div>
+<div class="paragraph"><p>USC AMRWB codec is compatible with 3GPP TS 26.173 v5.9.0 (2004-12) ANSI-C Code.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="tableblock">
+<table rules="all"
+width="60%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 11. USC AMRWB codec parameters</caption>
+<col width="25%" />
+<col width="75%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_AMRWB</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Multi-Rate WideBand Algebraic Code Excited Linear Prediction
+(MRWB-ACELP)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_AMRWB_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">16000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">20ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">6600 bps (132 bpf), 8850 bps (177 bpf), 12650 bps (253 bpf),
+14250 bps (285 bpf), 15850 bps (317 bpf), 18250 bps (365 bpf), 19850 bps (397 bpf), 23050
+bps (461 bpf), 23850  bps (477 bpf);  SID - 35 bpf</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">TX_NON_SPEECH (-1), TX_SPEECH_GOOD (0), TX_SID_FIRST(1),
+TX_SID_UPDATE (2), TX_NO_DATA (3), TX_SPEECH_PROBABLY_DEGRADED (4), TX_SPEECH_LOST (5),
+TX_SPEECH_BAD (6), TX_SID_BAD (7)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standards</p></td>
+<td align="left" valign="top"><p class="table">3GPP TS 26.190-192,194</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">AMRWBE</div><p>The USC AMRWBE codec is designed to operate with a digital signal appropriate to the 3GPP
+TS 26.290 specification for Extended Adaptive Multi-Rate  WideBand (AMR WB+) codec
+promoted by 3rd Generation Partnership Project (<a href="http://www.3gpp.org">http://www.3gpp.org</a>). It  is fully
+compliant to the specification and has been implemented using the Intel&#174; IPP Speech
+Coding functions.</p></div>
+<div class="paragraph"><p>The USC AMRWBE codec supports all modes including VAD supported by USC AMRWB codec and
+has extended functionality in supporting transform and bandwidth extension coding, stereo
+mode and audio signals sampled at higher bands: 24/32/48 kHz. USC AMRWBE codec encodes  16
+bit PCM signal re-sampled by using a variable sampling conversion scheme, within internal
+sampling frequency (ISF) in range 2800-38400 Hz.</p></div>
+<div class="paragraph"><p>USC AMRWBE codec supports nine mono 16 KHz AMRWB compatible bitrates  6600, 8850, 12650, 14250, 15850, 18250, 19850,
+23050, 23850 bps, and thirty six AMRWBE extended bitrates, namely</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+two mono 16/24 KHz bitrates 13600, 24000 bps
+</p>
+</li>
+<li>
+<p>
+two stereo 16/24 KHz bitrates 18000, 24000 bps
+</p>
+</li>
+<li>
+<p>
+eight mono 16/24/32/48 KHz bitrates 10400, 12000, 13600, 15200, 16800, 19200, 20800,
+24000 bps and
+</p>
+</li>
+<li>
+<p>
+twenty four stereo 16/24/32/48 KHz bitrates 12400, 12800, 14000, 14400, 15200, 16000,
+16400, 17200, 18000, 18400, 19200, 20000, 20400, 21200,  22400, 23200, 24000, 25600,
+26000, 26800, 28800, 29600, 30000, 32000 bps.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>USC AMRWBE codec is compatible with 3GPP TS 26.273 v6.0.0 (2005-03) ANSI-C Code.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="tableblock">
+<table rules="all"
+width="60%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 12. USC AMRWBE codec parameters</caption>
+<col width="25%" />
+<col width="75%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_AMRWBE</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithms</p></td>
+<td align="left" valign="top"><p class="table">Multi-Rate WideBand Algebraic Code Excited Linear Prediction
+(MRWB-ACELP), Transform Coding (TCX) and Bandwidth Extension (BWE)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_AMRWBE_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16bit linear PCM, mono and stereo.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">16000, 24000, 32000, 48000 Hz both for encode and decode
+and 8000 Hz for decode only</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame duration and frame size</p></td>
+<td align="left" valign="top"><p class="table">in AMRWB and AMRWB character modes frame size is 20 ms.
+Four consequence frames are transmitting as one 80ms super frame. Frame size at these
+modes is sets up to 640 (by default)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>At the AMRWBE modes frame duration varies depending on the internal sampling frequency</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<thead>
+<tr>
+<th align="left" valign="top">Internal sampling rate (Hz) </th>
+<th align="left" valign="top"> frame duration (ms) </th>
+<th align="left" valign="top"> frame size </th>
+<th align="left" valign="top"> bitrate factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">12800</p></td>
+<td align="left" valign="top"><p class="table">160.0</p></td>
+<td align="left" valign="top"><p class="table">5120</p></td>
+<td align="left" valign="top"><p class="table">1/2</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">14400</p></td>
+<td align="left" valign="top"><p class="table">142.2</p></td>
+<td align="left" valign="top"><p class="table">4550</p></td>
+<td align="left" valign="top"><p class="table">9/16</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">16000</p></td>
+<td align="left" valign="top"><p class="table">128.0</p></td>
+<td align="left" valign="top"><p class="table">4096</p></td>
+<td align="left" valign="top"><p class="table">5/8</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">17067</p></td>
+<td align="left" valign="top"><p class="table">120.0</p></td>
+<td align="left" valign="top"><p class="table">3840</p></td>
+<td align="left" valign="top"><p class="table">2/3</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">19200</p></td>
+<td align="left" valign="top"><p class="table">106.7</p></td>
+<td align="left" valign="top"><p class="table">3414</p></td>
+<td align="left" valign="top"><p class="table">3/4</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">21333</p></td>
+<td align="left" valign="top"><p class="table">96.0</p></td>
+<td align="left" valign="top"><p class="table">3072</p></td>
+<td align="left" valign="top"><p class="table">5/6</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">24000</p></td>
+<td align="left" valign="top"><p class="table">85.3</p></td>
+<td align="left" valign="top"><p class="table">2730</p></td>
+<td align="left" valign="top"><p class="table">15/16</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">25600</p></td>
+<td align="left" valign="top"><p class="table">80.0</p></td>
+<td align="left" valign="top"><p class="table">2560</p></td>
+<td align="left" valign="top"><p class="table">1</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">28800</p></td>
+<td align="left" valign="top"><p class="table">71.1</p></td>
+<td align="left" valign="top"><p class="table">2274</p></td>
+<td align="left" valign="top"><p class="table">9/8</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">32000</p></td>
+<td align="left" valign="top"><p class="table">64.0</p></td>
+<td align="left" valign="top"><p class="table">2048</p></td>
+<td align="left" valign="top"><p class="table">5/4</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">34133</p></td>
+<td align="left" valign="top"><p class="table">60.0</p></td>
+<td align="left" valign="top"><p class="table">1920</p></td>
+<td align="left" valign="top"><p class="table">4/3</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">36000</p></td>
+<td align="left" valign="top"><p class="table">56.9</p></td>
+<td align="left" valign="top"><p class="table">1820</p></td>
+<td align="left" valign="top"><p class="table">45/32</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">38400</p></td>
+<td align="left" valign="top"><p class="table">53.3</p></td>
+<td align="left" valign="top"><p class="table">1706</p></td>
+<td align="left" valign="top"><p class="table">3/2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>Internal sampling rate is selects by frame size set up to given values. With AMRWBE rates
+frame size sets up to 1280 (25600 Hz) by default, excluding 13.6, 24 kbps mono and 18, 24
+kbps stereo rates (AMRWB character modes by default). The bit rate also dependents on the
+internal sampling frequency. <em>Bitrate factor</em> indicates factor any  bit-rate value for
+25600 Hz internal sampling factor should be converted with.</p></div>
+<div class="tableblock">
+<table rules="all"
+width="60%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 13. Bitrates (AMRWB modes)</caption>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">bitrate (bps)</p></td>
+<td align="left" valign="top"><p class="table">bits per frame</p></td>
+<td align="left" valign="top"><p class="table">octes per frame</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">6600</p></td>
+<td align="left" valign="top"><p class="table">132</p></td>
+<td align="left" valign="top"><p class="table">17</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">8850</p></td>
+<td align="left" valign="top"><p class="table">177</p></td>
+<td align="left" valign="top"><p class="table">23</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">12650</p></td>
+<td align="left" valign="top"><p class="table">253</p></td>
+<td align="left" valign="top"><p class="table">32</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">14250</p></td>
+<td align="left" valign="top"><p class="table">285</p></td>
+<td align="left" valign="top"><p class="table">36</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">15850</p></td>
+<td align="left" valign="top"><p class="table">317</p></td>
+<td align="left" valign="top"><p class="table">40</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">18250</p></td>
+<td align="left" valign="top"><p class="table">365</p></td>
+<td align="left" valign="top"><p class="table">46</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">19850</p></td>
+<td align="left" valign="top"><p class="table">397</p></td>
+<td align="left" valign="top"><p class="table">50</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">23050</p></td>
+<td align="left" valign="top"><p class="table">461</p></td>
+<td align="left" valign="top"><p class="table">58</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">23850</p></td>
+<td align="left" valign="top"><p class="table">477</p></td>
+<td align="left" valign="top"><p class="table">60</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">SID</p></td>
+<td align="left" valign="top"><p class="table">35</p></td>
+<td align="left" valign="top"><p class="table">5</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">16kHz mono PCM allowed only.</td>
+</tr></table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="60%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 14. Bitrates (AMRWB character modes (modes with fixed internal sampling frequency)</caption>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">bitrate (bps)</p></td>
+<td align="left" valign="top"><p class="table">bits per frame</p></td>
+<td align="left" valign="top"><p class="table">octes per frame</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">13600 mono</p></td>
+<td align="left" valign="top"><p class="table">272</p></td>
+<td align="left" valign="top"><p class="table">34</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">24000 mono</p></td>
+<td align="left" valign="top"><p class="table">480</p></td>
+<td align="left" valign="top"><p class="table">60</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">18000 stereo</p></td>
+<td align="left" valign="top"><p class="table">360</p></td>
+<td align="left" valign="top"><p class="table">45</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">24000 stereo</p></td>
+<td align="left" valign="top"><p class="table">480</p></td>
+<td align="left" valign="top"><p class="table">60</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">8/16/24 kHz PCM applicable.</td>
+</tr></table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="60%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 15. Bitrates (AMRWBE mono modes (bit rates assume 25600 Hz internal sampling frequency)</caption>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">bitrate (bps)</p></td>
+<td align="left" valign="top"><p class="table">bits per frame</p></td>
+<td align="left" valign="top"><p class="table">octes per frame</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">10400</p></td>
+<td align="left" valign="top"><p class="table">208</p></td>
+<td align="left" valign="top"><p class="table">26</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">12000</p></td>
+<td align="left" valign="top"><p class="table">240</p></td>
+<td align="left" valign="top"><p class="table">30</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">13600</p></td>
+<td align="left" valign="top"><p class="table">272</p></td>
+<td align="left" valign="top"><p class="table">34</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">15200</p></td>
+<td align="left" valign="top"><p class="table">304</p></td>
+<td align="left" valign="top"><p class="table">38</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">16800</p></td>
+<td align="left" valign="top"><p class="table">336</p></td>
+<td align="left" valign="top"><p class="table">42</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">19200</p></td>
+<td align="left" valign="top"><p class="table">384</p></td>
+<td align="left" valign="top"><p class="table">48</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">20800</p></td>
+<td align="left" valign="top"><p class="table">416</p></td>
+<td align="left" valign="top"><p class="table">52</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">24000</p></td>
+<td align="left" valign="top"><p class="table">480</p></td>
+<td align="left" valign="top"><p class="table">60</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">Full mono and stereo sampling band applicable.</td>
+</tr></table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="60%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 16. Bitrates (AMRWBE stereo modes (bit rates assume 25600 Hz internal sampling frequency))</caption>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">bitrate (bps)</p></td>
+<td align="left" valign="top"><p class="table">bits per frame</p></td>
+<td align="left" valign="top"><p class="table">octes per frame</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">12400</p></td>
+<td align="left" valign="top"><p class="table">248</p></td>
+<td align="left" valign="top"><p class="table">31</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">12800</p></td>
+<td align="left" valign="top"><p class="table">256</p></td>
+<td align="left" valign="top"><p class="table">32</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">14000</p></td>
+<td align="left" valign="top"><p class="table">280</p></td>
+<td align="left" valign="top"><p class="table">35</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">14400</p></td>
+<td align="left" valign="top"><p class="table">288</p></td>
+<td align="left" valign="top"><p class="table">36</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">15200</p></td>
+<td align="left" valign="top"><p class="table">304</p></td>
+<td align="left" valign="top"><p class="table">38</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">16000</p></td>
+<td align="left" valign="top"><p class="table">320</p></td>
+<td align="left" valign="top"><p class="table">40</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">16400</p></td>
+<td align="left" valign="top"><p class="table">328</p></td>
+<td align="left" valign="top"><p class="table">41</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">17200</p></td>
+<td align="left" valign="top"><p class="table">344</p></td>
+<td align="left" valign="top"><p class="table">43</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">18000</p></td>
+<td align="left" valign="top"><p class="table">360</p></td>
+<td align="left" valign="top"><p class="table">45</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">18400</p></td>
+<td align="left" valign="top"><p class="table">368</p></td>
+<td align="left" valign="top"><p class="table">46</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">19200</p></td>
+<td align="left" valign="top"><p class="table">384</p></td>
+<td align="left" valign="top"><p class="table">48</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">20000</p></td>
+<td align="left" valign="top"><p class="table">400</p></td>
+<td align="left" valign="top"><p class="table">50</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">20400</p></td>
+<td align="left" valign="top"><p class="table">408</p></td>
+<td align="left" valign="top"><p class="table">51</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">21200</p></td>
+<td align="left" valign="top"><p class="table">424</p></td>
+<td align="left" valign="top"><p class="table">53</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">22400</p></td>
+<td align="left" valign="top"><p class="table">448</p></td>
+<td align="left" valign="top"><p class="table">56</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">23200</p></td>
+<td align="left" valign="top"><p class="table">464</p></td>
+<td align="left" valign="top"><p class="table">58</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">24000</p></td>
+<td align="left" valign="top"><p class="table">480</p></td>
+<td align="left" valign="top"><p class="table">60</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">25600</p></td>
+<td align="left" valign="top"><p class="table">512</p></td>
+<td align="left" valign="top"><p class="table">64</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">26000</p></td>
+<td align="left" valign="top"><p class="table">520</p></td>
+<td align="left" valign="top"><p class="table">65</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">26800</p></td>
+<td align="left" valign="top"><p class="table">536</p></td>
+<td align="left" valign="top"><p class="table">67</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">28800</p></td>
+<td align="left" valign="top"><p class="table">576</p></td>
+<td align="left" valign="top"><p class="table">72</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">29600</p></td>
+<td align="left" valign="top"><p class="table">592</p></td>
+<td align="left" valign="top"><p class="table">74</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">30000</p></td>
+<td align="left" valign="top"><p class="table">600</p></td>
+<td align="left" valign="top"><p class="table">75</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">32000</p></td>
+<td align="left" valign="top"><p class="table">640</p></td>
+<td align="left" valign="top"><p class="table">80</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>Full stereo sampling band applicable. For mono bitrates <code>USC_Modes::outMode</code> must
+be setup to <code>USC_OUT_MONO</code> and to <code>USC_OUT_STEREO</code> for stereo bitrates.</p></div>
+</td>
+</tr></table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">Echo Canceller Module</div><p>Echo Canceller basically represent a type of algorithms or device for  preventing an
+electric or acoustic feedback (an echo). The transfer function between the original
+(remote) signal and echoed with local voice signal can be reconstructed and thus echo
+replica removed.</p></div>
+<div class="paragraph"><p>The job of the EC is to accurately estimate the transfer function (echo path) and delay
+so that a restore local room filter response to original (for example, loudspeaker signal)
+may be subtracted from the echoed signal (for example, microphone signal), thus cancelling
+the echo.</p></div>
+<div class="paragraph"><p>USC Echo Canceller basically implements a sample- and frequency- domain  adaptive NLMS
+filter and DT controller algorithms.</p></div>
+<div class="paragraph"><div class="title">Subband Affine Projection algorithm</div><p>The frequency domain block normalized least mean square (NLMS) adaptive  filter has a
+relatively simple computational structure and modest complexity. The algorithm consists of
+the following steps:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+New input block. The most recently acquired N/2 input samples and the previous N/2
+input samples make up the new input block.
+</p>
+</li>
+<li>
+<p>
+The FFT of the input is calculated.
+</p>
+</li>
+<li>
+<p>
+Update input history. The most recent frequency-domain input blocks are retained.
+</p>
+</li>
+<li>
+<p>
+Compute the adaptive and fixed filters output. The adaptive  filter uses the
+low-latency structure, where the filter impulse response is evenly divided into
+non-overlapping segments. The filter output is computed in the frequency domain, and then
+properly constrained (see step 9) such that the underlying convolution is
+linear.
+</p>
+</li>
+<li>
+<p>
+Constrain the error for adaptive and fixed filter. First the  time-domain filter output
+is computed via an inverse discrete Fourier transform. The time-domain error must be
+constrained to properly implement the adaptation step in the frequency-domain.
+</p>
+</li>
+<li>
+<p>
+Update subband controller state and calculate step sizes for  adaptation. Step sizes
+are averaged over the history of the <em>order</em> length according to [1].
+</p>
+</li>
+<li>
+<p>
+Update adaptive filter. The adaptive filter update is carried out in  the
+frequency-domain. Segments of the adaptive filter response are updated independently.
+</p>
+</li>
+<li>
+<p>
+Constrain the adaptive filter response. To exactly implement  the linear convolution
+(filtering) operation in the frequency domain, it is necessary to apply a constraint. The
+first half of each segment of the impulse response is retained and the rest set to zero.
+</p>
+</li>
+<li>
+<p>
+Subband controller. The controller compares powers of adaptive  filter error and fixed
+filter error and tracks changes of adaptive filter coefficients power. If the adaptive
+filter has a significantly smaller error and is stable (which is indicated by coefficients
+power changing slowly), its coefficients are copied to the fixed filter.
+This case corresponds to <em>no double-talk</em> mode. If the fixed filter has
+a significantly smaller error, its coefficients are copied to the
+adaptive filter. This case corresponds to the double-talk mode. Send
+gain coefficient calculation (NLP block) is based on presence of the
+double-talk mode and changes of receive-in and send-in signal powers.
+</p>
+</li>
+</ol></div>
+<div class="olist arabic"><div class="title">Subband -fast algorithm steps</div><ol class="arabic">
+<li>
+<p>
+New input blocks (both receive-in and send-in signals). The most  recent N input
+samples make up the input blocks
+</p>
+</li>
+<li>
+<p>
+Calculate subband representations for new input blocks
+</p>
+</li>
+<li>
+<p>
+Update input history. The most recent L frequency-domain input blocks are retained
+</p>
+</li>
+<li>
+<p>
+Same as step 4) of the Subband algorithm.
+</p>
+</li>
+<li>
+<p>
+Calculate filters error (subtracting filter outputs from send-in signal)
+</p>
+</li>
+<li>
+<p>
+Same as step 6) 7) 9) of the Subband algorithm
+</p>
+</li>
+<li>
+<p>
+Reconstruct output signal from fixed filter error
+</p>
+</li>
+<li>
+<p>
+Same as step 9) of the Subband algorithm
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><div class="title">SAP algorithm steps</div><p>Subband algorithm is the kind of SAP algorithm with the order 1. In SAP  algorithm step
+sizes are averaged over the history of the <em>order</em> length.</p></div>
+<div class="olist arabic"><div class="title">Fullband algorithm steps</div><ol class="arabic">
+<li>
+<p>
+New input frame
+</p>
+</li>
+<li>
+<p>
+Update history buffer
+</p>
+</li>
+<li>
+<p>
+Compute output of fixed coefficient filter
+</p>
+</li>
+<li>
+<p>
+Update fullband controller state, calculate step sizes for adaptation
+</p>
+</li>
+<li>
+<p>
+Calculate output of adaptive coefficient filter and do NLMS adaptation
+</p>
+</li>
+<li>
+<p>
+Same as 9) of the Subband algorithm
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><div class="title">AEC Controller</div><p>The adaptive filter modifies its coefficients such that the filtered  original signal best
+matches the echoed signal in the least squares sense. When the local voice is active, then
+the echo path is rather weak, and the transfer function is nearly linear, approaching the
+true transfer function.  If both local voice and remote voices are active (a  situation
+known as <em>double-talk</em>) then adaptive filter will not converge to the proper solution.
+Even when both local and remote voices are weak, they may still cause the adaptive filter
+to diverge. The controller addresses these problems by adjusting the adaptive filter
+step size ( <strong>u</strong> in Step 5 above) such that the filter converges  rapidly when the remote
+signal is present, but does not diverge quickly during double-talk or local voice
+presence. The controller also manages playback and output gain to block echo when the
+adaptive filter has diverged.</p></div>
+<div class="paragraph"><div class="title">Tone disabler</div><p>The tone disabler according to ITU-T G.168 specification is intended  for in-band
+disabling and enabling of the echo canceller.</p></div>
+<hr />
+<div class="paragraph"><div class="title">G.711</div><p>The USC G711 codec is designed to operate with a digital signal appropriate to ITU G.711
+coder. It is fully compliant with ITU-T G.711, ITU G711 Appendix I specifications promoted
+by International Telecommunication Union (www.itu.int) and has been implemented using
+the Intel&#174; IPP  Speech Coding functions. The USC G711 codec supports compression and
+decompression with 10ms frame length at 64 kbps producing 640 bits per frame (bpf).</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>USC G711 comprises of two codecs with following parameters</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G711A</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">A-law PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G711A_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">13 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">10 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">64000 bps (640 bpf - voice, 16 bpf - SID)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD supported, compatible with G729B</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame types (value)</p></td>
+<td align="left" valign="top"><p class="table">Untransmitted (0), SID (1),Voice (3), Bad 1 (-1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standards</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G711, G711 Appendix I.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G711U</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Mu-law PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G711U_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">14 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling rate</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">10 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">64000 bps (640 bpf - voice, 16 bpf - SID)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD supported, compatible with G729B</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame types (value)</p></td>
+<td align="left" valign="top"><p class="table">Untransmitted (0), SID (1),Voice (3), Bad 1 (-1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standards</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G711, G711 Appendix I</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">G.722.1</div><p>The USC G722.1 codec is designed to operate with a digital signal  appropriate to the ITU
+G.722.1 specification for Coding at 24 and 32 kbit/s for Hands-Free operation in Systems
+with low frame loss promoted by International Telecommunication Union
+(<a href="http://www.itu.int">http://www.itu.int</a>). It is fully compliant with ITU G.722.1 specification  and has been
+implemented using the Intel&#174; IPP  Speech Coding functions.  The USC G722 codec supports
+compression and decompression with 20 ms frame length at 16, 24, 32 and 48 kbps  producing
+320, 480, 640 and 960 bits per frame (bpf) respectively.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>USC G722.1 codec parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G722.1</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Modulated linear transform (MLT) based coding</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G722_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">16000 Hz and 32000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">20 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">16000 bps (320 bpf), 24000 bps (480 bpf), 32000 bps (640  bpf)
+for 16 KHz PCM and  24000 bps (480 bpf), 32000 bps (640 bpf), 48000 bps (960 bpf)  for 32
+KHz PCM audio signals</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD not supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC not supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame types (value)</p></td>
+<td align="left" valign="top"><p class="table">Good (0), Bad (1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.722.1, Annex C</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">G.722</div><p>The USC G.722 codec is designed to operate with a digital signal  appropriate to G.722
+specification for 7 KHz Audio Coding within 64 Kbit/s promoted by International
+Telecommunication Union (htt://www.itu.int). It is fully compliant with ITU-T G.722 and
+has been implemented using the Intel&#174; IPP Speech  Coding functions.  The USC G.722 codec
+supports compression with 20 ms frame length at 64 kbps producing 1280 bits per frame
+(bpf) and decompression with 64, 56 or 48 kbps depending on the transmit mode.  The latter
+two modes allow an auxiliary data to be carried within the 64 kbps channel in lower
+sub-band at 8 and 16 kbps respectively.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>USC G722 codec parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G722</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Sub-band adaptive differential pulse code modulation (SB-ADPCM)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G722SB_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">16000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">20 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">64000 bps (1280 bpf) for encode; 64000,  56000 and 48000  bps
+(1280 bpf all) for decode. For lower 56 kbps and 48 kbps rates a bit stream may carry 1
+and 2 auxiliary bits per octet respectively which ignored by the decoder</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD not supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">Voice (0)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.722, G.722 Appendix IV</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">G723.1</div><p>The USC G723.1 codec is designed to operate with a digital signal  appropriate to the ITU
+G.723.1 specification for Dual-Rate speech coder promoted by International
+Telecommunication Union (<a href="http://www.itu.int">http://www.itu.int</a>). It is  fully compliant with ITU G.723.1
+with Annex A and has been implemented using the Intel&#174;  IPP Speech Coding functions. The
+USC G.723.1 codec supports compression and decompression with 30 ms  frame length at 5300
+and 6300 bps producing 158 and 189 bits per frame (bpf) respectively.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>USC G.723.1 codec parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G723.1</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Multipulse Maximum Likelihood Quantization  (MP-MLQ) for 6.3
+kbps and Algebraic-Code-Excited Linear-Prediction (ACELP) for 5.3 kbps</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G723_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">14 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">30 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">5300 bps (159 bpf) and 6300 bps (189 bpf); SID - 32 bpf,
+Untransmitted - 8 bpf</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">Good (0), Bad (1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.723.1, Annex A</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">G.726</div><p>The USC G.726 codec is designed to operate with a digital signal  appropriate to the ITU-T
+G.726 specification and G.726 Annex A specifications for Adaptive Differential PCM
+promoted by International Telecommunication Union (<a href="http://www.itu.int">http://www.itu.int</a>). It is fully
+compliant with ITU G.726 with Annex A and has been implemented using the  Intel&#174; IPP
+Speech Coding functions. The USC G.726 codec supports compression and  decompression with
+10ms frame length at 16, 24, 32 and 40 kbps producing 160, 240, 320 or 400 bits per frame
+(bpf) respectively.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>USC G726 codec parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G726</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Adaptive differential pulse code modulation (ADPCM)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G726_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">14 bit linear PCM and 8 bit compounded A-law or Mu-law PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame sizes</p></td>
+<td align="left" valign="top"><p class="table">10ms (160 bytes)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitstream frame sizes</p></td>
+<td align="left" valign="top"><p class="table">20, 30, 40 or 50 for 16, 24, 32 or 40 kbps respectively</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bit rates supported</p></td>
+<td align="left" valign="top"><p class="table">16, 24, 32 or 40 kbps</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD not supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC not supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">Speech (0)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.726, G.726 Annex A</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>Important note: As it is stated in ITU-T G.726A <em>ANNEX A: EXTENSIONS OF RECOMMENDATION
+G.726 FOR USE WITH UNIFORM-QUANTIZED INPUT AND OUTPUT</em>: This annex defines a 14-bit
+uniform-quantized interface for Recommendation G.726. Use with other data widths requires
+scaling the data such that the most significant bit of the 14-bit uniform PCM  corresponds
+to the most significant bit of the target data width. For example, a 13-bit input value
+must be left shifted by one bit to provide the input. Likewise, the output value, must be
+right shifted by one bit to provide a 13-bit output.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>The USC G726 encode shifts right 16 bit linear PCM input by two  bits so as 14 most
+significant bits are compressed. The USC G.726 decode decompresses into 14bit linear PCM.
+Thus, USC G726 codec de-amplifies input 16 bit PCM to 14 bit PCM. To restore original
+input left shift by two bits is required (amplification by about 6dB).</p></div>
+</td>
+</tr></table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">G.728</div><p>The USC G.728 codec is designed to operate with a digital signal  appropriate to ITU-T
+G.728 specification for Low-Delay CELP coder promoted by International Telecommunication
+Union (<a href="http://www.itu.int">http://www.itu.int</a>). It is fully compliant to ITU-T G.728 with  Annexes I, G, H and
+has been implemented using the Intel&#174; IPP Speech Coding functions.  The USC G.728 codec
+supports compression with 20 ms frame length at 9.6, 12.8 and 16 kbps producing 192, 256
+and 320 bits per frame (bpf).</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>USC G728 codec parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G728</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Low-delay code excited linear prediction (LD-CELP)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G728_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">16000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">20 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">9600 bps (192 bpf), 12800 bps (256 bpf) and 16000 bps  (320
+bpf)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD not supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame types (value)</p></td>
+<td align="left" valign="top"><p class="table">Voice (0), Bad (1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standards</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.728, Appendixes I, G, H</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">G.729.1</div><p>The USC G.729.1 codec is designed to operate with a digital signal  appropriate to ITU-T
+G.729.1 specification for the Embedded Variable rate wideband coder operating at 8-32
+kbit/s bitstream interoperable with G.729 which is promoted by International
+Telecommunication Union (<a href="http://www.itu.int">http://www.itu.int</a>). It is fully compliant to ITU G.729.1
+(2006) and has been implemented using the Intel&#174; IPP Speech Coding functions. The USC
+G729.1 codec supports compression and decompression with 20 ms (16000 Hz) or  10 ms (8000
+Hz) frame lengths at variable bitrates within 8-32 kbps and has a bandwidth of 50-4000 Hz
+at 8 and 12 kbps and 50-7000 Hz from 14 to 32 kbps.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>USC G.729.1 codec is supported with following parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G7291</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithms</p></td>
+<td align="left" valign="top"><p class="table">Embedded CELP (50-4000 Hz),  Time-Domain  Bandwidth
+Extension (TD-BWE) for the higher band (4000-7000 Hz) and transform coding scheme referred
+as Time-Domain Aliasing Cancellation (TDAC) for full band (50-7000Hz)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G7291_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 and 16000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">20 ms. Two 10 ms frames in G.729B compatible narrowband
+mode or 20 ms for wideband</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">8000 bps (160 bpf, 20 bytes either one 20ms wb frame or two
+equal 10ms NB frames), 12000 bps (240 bpf, 30 bytes), 14000 bps (280 bpf, 35 bytes),
+16000 bps (320 bpf, 40 bytes), 18000 bps (360 bpf, 45 bytes), 20000  bps (400 bpf, 50
+bytes), 22000 bps (440 bpf, 55 bytes), 24000 bps (480 bpf, 60 bytes), 26000 bps (520 bpf,
+65 bytes), 28000 bps (560 bpf, 70 bytes), 30000 bps (600 bpf, 75 bytes), 32000 bps (640
+bpf, 80 bytes)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD supported for 729B compatible mode (decoder only)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">G.729.1 wide-band codec: Voice (0), Erased (1)<br />
+G.729B compatible mode, depending on two consecutive 10ms frames  with numbers 1,2
+comprised into one 20ms frame: Voice1+Voice2 (5), SID1+Voice2 (6), Voice1+SID2 (9),
+SID1+SID2 (10),  Erased( -1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.729.1, Interoperable with ITU-T G.729, Annexes A, B</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">G.729 Floating-Point</div><p>The USC G.729 floating point codec is designed to operate with a digital signal
+appropriate to
+ITU-T G729 specification. / for CS-ACELP codec promoted by International Telecommunication
+Union (<a href="http://www.itu.int">http://www.itu.int</a>). It is fully compliant to ITU-T G.729 and Annexes A, B, C, C+,
+D, E, I specifications and has been implemented using the Intel&#174; IPP Speech Coding
+functions. The USC G.729 float codec supports compression and decompression with 10 ms
+frame length at 6400, 8000 and 11800 bps producing 64, 80 or and 118  bits per frame (bpf)
+respectively.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>Two USC G.729 floating-point codecs are supported with following
+parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G729A_FP</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Reduced complexity Conjugate-Structure
+Algebraic-Code-Excited Linear-Prediction (SC-ACELP)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G729AFP_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">10 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">8000 bps (voice - 80 bpf, SID - 16 bpf, Untransmitted -
+0 bpf)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">Voice (3), SID (1),Untransmitted(0) , Bad(-1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.729 Annexes A, B</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G729I_FP</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Reduced complexity Conjugate-Structure
+Algebraic-Code-Excited Linear-Prediction (SC-ACELP)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G729IFP_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">10ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">6400 bps (64 bpf), 8000 bps (80 bpf), 11800 bps (236
+bpf); SID - 16 bpf, Untransmitted - 0 bpf</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame types (value)</p></td>
+<td align="left" valign="top"><p class="table">Voice 6400 (2),  Voice 8000 (3), Voice 11800
+(4), SID (1), Untransmitted (0) , Bad(-1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.729, Annexes  B, C, C+, D, E, I</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">G729 Fixed-Point</div><p>The USC G.729 fixed-point codec is designed to operate with a  digital signal appropriate
+to ITU-T G.729 specification for CS-ACELP codec promoted by International
+Telecommunication Union (<a href="http://www.itu.int">http://www.itu.int</a>). It is fully compliant to ITU-T G.729 with
+Annexes A, B, C, C+, D, E, I and has been implemented using the Intel&#174; IPP Speech
+Coding functions. The USC G.729 codec supports  compression and  decompression with 10 ms
+frame length at 6400, 8000 and 11800 bps producing 64, 80 or and 118 bits per frame (bpf)
+respectively.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>Two USC G.729 fixed-point codecs are supported with following
+parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G729A</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Reduced complexity Conjugate-Structure
+Algebraic-Code-Excited Linear-Prediction (SC-ACELP)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G729A_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">10 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">8000 bps (80 bpf, SID - 16 bpf, Untransmitted - 0 bpf)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">Voice (3), SID (1),Untransmitted(0) , Bad(-1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.729 Annexes A, B</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_G729I</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Reduced complexity Conjugate-Structure
+Algebraic-Code-Excited Linear-Prediction (SC-ACELP)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_G729I_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear 8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">10 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">6400 bps (64 bpf), 8000 bps (80 bpf), 11800 bps (236
+bpf); SID - 16 bpf, Untransmitted - 0 bpf</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">VAD supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame types (value)</p></td>
+<td align="left" valign="top"><p class="table">Voice 6400 (2),  Voice 8000 (3), Voice 11800
+(4), SID (1), Untransmitted (0) , Bad(-1)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">ITU-T G.729, Annexes  B, C, C+, D, E, I</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">GSMAMR</div><p>The USC GSMAMR codec is designed to operate with a digital signal  appropriate to GSM06.90
+specifications for GSM Adaptive Multi-Rate codec promoted by European Telecommunications
+Standards Institute (<a href="http://www.etsi.org">http://www.etsi.org</a>). It is fully compliant to GSM06.90-94 and 3GPP
+TS 26 071, 073 specifications and has been implemented using the  Intel&#174; IPP Speech
+Coding functions. The USC GSMAMR codec supports compression and  decompression with 20 ms
+frame length at eight bitrates 4750, 5150, 5900, 6700, 7400, 7950, 10200, 12200 bps
+producing 95, 103, 118, 134, 148, 159, 204, 244 bits per frame (bpf) respectively.</p></div>
+<div class="paragraph"><p>USC GSMAMR codec is compatible with 3GPP TS 26.073 v7.1.0 (2007-06) ANSI-C Code.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>USC GSMAMR codec parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_GSMAMR</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Multi-Rate Algebraic Code Excited Linear  Prediction
+(MR-ACELP)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_GSMAMR_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">20 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">4750 bps (95 bpf), 5150 bps (103 bpf), 5900 bps (118
+bpf), 6700 bps (134 bpf), 7400 bps (148 bpf), 7950 bps (159 bpf), 10200 bps  (204 bpf),
+12200 bps (244 bpf);  SID - 35 bpf</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">two types of VAD supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">TX_NON_SPEECH (-1), TX_SPEECH_GOOD (0),
+TX_SID_FIRST(1), TX_SID_UPDATE (2), TX_NO_DATA (3), TX_SPEECH_ DEGRADED
+(4), TX_SPEECH_BAD (5), TX_SID_BAD (6), TX_ONSET (7)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standards</p></td>
+<td align="left" valign="top"><p class="table">ETSI EN 301 704-708, GSM06.90-94</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">GSMFR</div><p>The USC GSMFR codec is designed to operate with a digital signal  appropriate to GSM06.10
+specifications for GSM Full Rate codec promoted by European Telecommunications Standards
+Institute (<a href="http://www.etsi.org">http://www.etsi.org</a>). It is compliant to GSM06.10-12,30-31  specifications and
+has been implemented using the Intel&#174; IPP Speech Coding functions. The USC GSMFR codec
+supports compression and decompression with 20 ms frame length at 13000 bps producing 260
+bits per frame (bpf).</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="paragraph"><p>USC GSMFR codec parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_GSMFR</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithm</p></td>
+<td align="left" valign="top"><p class="table">Regular Pulse Excitation - Long Term
+prediction (RPE-LTP)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_GSMFR_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">20 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">13000 bps (260 bpf)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">Uplink and Downlink VAD modes supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">Speech VAD OFF (-1), SID (0), Speech VAD ON (1),
+Speech in Hangover (2)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standards</p></td>
+<td align="left" valign="top"><p class="table">ETSI EN 300 961-965, GSM06.10-12, GSM06.30-31</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<div class="paragraph"><div class="title">MSRTA Floating-Point</div><p>The USC MSRTA codec is designed to operate with a digital signal appropriate to
+Microsoft* Real-Time Audio codec. It is fully bitstream compliant to Microsoft* RT Audio
+codec with comparable quality and has been implemented using the Intel&#174; IPP  Speech
+Coding functions. The USC MSRTA codec supports 16 bit wideband 16000 Hz and narrowband
+8000 Hz PCM mono signals compression and decompression with 20 ms frame lengths at
+bitrates 8800 bps and 18000 bps respectively.</p></div>
+<div class="paragraph"><div class="title">USC Codec description</div><p>For USC Interface description refer to <em>USC manual</em>.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>In description of the Codec API function Decode in case <code>out&#8594;pBuffer</code> is zero, fake
+decode is performed, with no PCM stream output setting <code>out&#8594;nBytes</code>  is set  to
+bitstream length bytes without FEC.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>USC MSRTA codec is supported with following parameters:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_MSRTAnb_FP</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithms</p></td>
+<td align="left" valign="top"><p class="table">QMF, LPC, Adaptive and Fixed codebook for
+low band, Unvoiced Fixed codebook for high band, bandwidth control for
+variable bitrate mode</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_MSRTAFP_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">8000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">20 ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">8800 bps (176 bpf, 22 bytes)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">variable rate support</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">default 0, not required</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">Microsoft* Real-Time Audio</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="80%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="33%" />
+<col width="66%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">Codec name</p></td>
+<td align="left" valign="top"><p class="table">IPP_MSRTAwb_FP</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Compression algorithms</p></td>
+<td align="left" valign="top"><p class="table">QMF, LPC, Adaptive and Fixed codebook for
+low band, Unvoiced Fixed codebook for high band, bandwidth control for
+variable bitrate mode</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Linkage</p></td>
+<td align="left" valign="top"><p class="table">USC_MSRTAFP_Fxns</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Signal</p></td>
+<td align="left" valign="top"><p class="table">16 bit linear PCM</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Sampling</p></td>
+<td align="left" valign="top"><p class="table">16000 Hz</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame</p></td>
+<td align="left" valign="top"><p class="table">20ms</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Bitrates</p></td>
+<td align="left" valign="top"><p class="table">18000 bps  (360 bpf, 45 bytes)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Voice Activity Detection</p></td>
+<td align="left" valign="top"><p class="table">variable rate support</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Packet Loss Concealment</p></td>
+<td align="left" valign="top"><p class="table">PLC supported</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Frame type (value)</p></td>
+<td align="left" valign="top"><p class="table">default 0, not required</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">Standard</p></td>
+<td align="left" valign="top"><p class="table">Microsoft* Real-Time Audio</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<h1 id="_technical_support">Technical Support</h1>
+<div class="paragraph"><p>If you did not register your Intel&#174; software product during
+installation, please do so now at the Intel&#174; Software Development
+Products Registration Center. Registration entitles you to free
+technical support, product updates and upgrades for the duration of the
+support term.</p></div>
+<div class="paragraph"><p>For general information about Intel technical support, product updates,
+user forums, FAQs, tips and tricks, and other support questions, please
+visit (<a href="http://www.intel.com/software/products/support">http://www.intel.com/software/products/support</a>).</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">If your distributor provides technical  support for this product, please contact
+them rather than Intel.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>For technical information about the Intel&#174; IPP library, including FAQ&#8217;s,
+tips and tricks, and other support information, please visit the
+Intel&#174; IPP forum: (<a href="http://software.intel.com/en-us/forums/intel-integrated-performance-primitives">http://software.intel.com/en-us/forums/intel-integrated-performance-primitives</a>)
+and browse the Intel&#174; IPP knowledge  base:
+(<a href="http://software.intel.com/en-us/articles/intel-ipp-kb/all">http://software.intel.com/en-us/articles/intel-ipp-kb/all</a>).</p></div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+</div>
+</div>
+</body>
+</html>

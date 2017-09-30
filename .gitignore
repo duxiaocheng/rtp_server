@@ -1,0 +1,9 @@
+
+# for rtp_server source insight project files
+/rtp_server.*
+!/rtp_server.h
+!/rtp_server.c
+
+# for wireshark packet
+/*.pcap
+
